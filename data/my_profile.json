@@ -39,5 +39,12 @@
     "Machine Learning Engineer"
   ],
   "preferred_locations": ["India", "Remote", "Hybrid"],
-  "notes": "3.5 YOE backend engineer transitioning toward GenAI/ML roles; strong in production backend/pipeline engineering, actively building RAG/LLM/vector DB/document-intelligence skills. Some skills in learning_in_progress_skills were added from a colleague's resume as aspirational/exposure skills, not proven experience."
+  "notes": "3.5 YOE backend engineer transitioning toward GenAI/ML roles; strong in production backend/pipeline engineering, actively building RAG/LLM/vector DB/document-intelligence skills. Some skills in learning_in_progress_skills were added from a colleague's resume as aspirational/exposure skills, not proven experience.",
+
+  "scoring_weights": {
+    "core_skill_weight": 0.5,
+    "learning_skill_weight": 0.25,
+    "experience_fit_weight": 0.25,
+    "_note": "Must sum to 1.0. Adjust these to change what the fit score prioritizes - e.g. raise experience_fit_weight if you'd rather filter out jobs outside your experience range more aggressively, or raise core_skill_weight to prioritize pure skill match over experience fit."
+  }
 }
