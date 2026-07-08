@@ -1,0 +1,21 @@
+job_id,company,title,min_exp,max_exp,core_skill_%,learning_skill_%,exp_fit_%,fit_score,anomaly
+1,KPMG India,AI Engineer,4.0,8.0,50.0,27.8,83.3,52.8,
+12,Cognite,Machine Learning Engineer,3.0,6.0,28.6,50.0,100.0,51.8,
+2,Birlasoft,Generative AI Engineer,4.0,6.0,35.7,38.9,83.3,48.4,
+7,Finkraft,AI Engineer,4.0,6.0,42.9,16.7,83.3,46.4,
+13,Infosys,AI Engineers,,,42.9,50.0,50.0,46.4,MISSING_EXP: has requirements section but no clear experience range
+9,Movate,Artificial Intelligence Engineer (GenAI & Agentic AI),1.0,4.0,14.3,50.0,100.0,44.6,
+4,Ascendion,Generative AI Engineer,4.0,,21.4,27.8,83.3,38.5,
+5,Persistent Systems,GenAI Engineer (Agentic AI),3.0,9.0,14.3,22.2,100.0,37.7,
+3,Accelirate Inc.,Generative AI Engineer,3.0,5.0,7.1,27.8,100.0,35.5,
+17,Augury,GenAI Engineer (AgenticAI),2.0,4.0,7.1,27.8,100.0,35.5,
+18,Nians,Generative AI Engineer,1.0,,7.1,27.8,100.0,35.5,
+10,Accenture in India,AI / ML Engineer,5.0,,28.6,27.8,50.0,33.7,
+14,Chubb,AI/ML Engineer,4.0,,7.1,33.3,83.3,32.7,
+16,Nielsen,Machine Learning Engineer (MLE-3),3.0,6.0,7.1,11.1,100.0,31.3,
+15,Hitachi Digital Services,AI/ML Engineer(s),5.0,,28.6,16.7,50.0,31.0,
+8,Ecolab,AI Engineer,2.0,4.0,0.0,11.1,100.0,27.8,
+20,Siemens Digital Industries Software,AI Software Engineer (GenAI & Agentic Systems),,,21.4,16.7,50.0,27.4,MISSING_EXP: has requirements section but no clear experience range
+19,Toptal,Artificial Intelligence Engineer (AI Implementation Engineer),,,7.1,27.8,50.0,23.0,MISSING_EXP: has requirements section but no clear experience range
+6,Lenovo,AI / GenAI Engineer,5.0,,14.3,11.1,50.0,22.4,
+11,LTM,Machine Learning Engineer,,,0.0,0.0,50.0,12.5,MISSING_EXP: has requirements section but no clear experience range
