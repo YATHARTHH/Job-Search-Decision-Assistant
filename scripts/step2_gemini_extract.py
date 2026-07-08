@@ -13,6 +13,21 @@ SETUP (one-time):
 WHAT THIS DOES:
 Reads job_postings.csv, sends each jd_text to Gemini, gets back structured JSON,
 and saves to jobs_structured.csv. Resumes from where it left off on re-run.
+
+CHANGELOG (Harry's fixes over the original version):
+1. google.generativeai -> google.genai (old package deprecated/dead)
+2. gemini-2.0-flash -> gemini-2.5-flash (2.0-flash hit exhausted daily quota)
+3. sleep(1) -> sleep(15) (free tier cap is 5 req/min, need >=12s between calls)
+4. Retry on 503 (server overload)
+5. Retry on 429 (rate limit)
+6. Retry on network errors (wifi drops)
+7. Incremental save after each job (previously all progress lost on crash)
+8. Resume from last saved job on re-run (skip already-completed job_ids)
+9. Fixed column order on append (previously caused NaN job_ids from misaligned columns)
+
+KNOWN LIMITATION: "done" = a row with this job_id already exists in the output file.
+This includes rows that failed to parse (error == "could_not_parse"), so those are
+NOT automatically retried on re-run. Left as-is intentionally for now.
 """
 
 import os
@@ -91,13 +106,19 @@ def main():
     jobs = pd.read_csv(os.path.join(DATA_DIR, "job_postings.csv"))
 
     # Resume: skip already-processed job_ids (drop nan rows from corrupt prior runs)
+    # FIX: rows that failed to parse (error == "could_not_parse") are now excluded
+    # from done_ids so they get RETRIED on re-run, instead of being permanently skipped.
     done_ids = set()
     if os.path.exists(out_path):
         existing = pd.read_csv(out_path)
         existing = existing.dropna(subset=["job_id"])
+        failed_mask = existing["error"] == "could_not_parse"
+        retry_ids = set(existing.loc[failed_mask, "job_id"].astype(int).tolist())
+        existing = existing.loc[~failed_mask]  # drop failed rows - they'll be re-appended if retried
         done_ids = set(existing["job_id"].astype(int).tolist())
-        if done_ids:
-            existing.to_csv(out_path, index=False)  # rewrite clean file without nan rows
+        existing.to_csv(out_path, index=False)  # rewrite clean file without nan/failed rows
+        if retry_ids:
+            print(f"Will retry {len(retry_ids)} previously-failed job(s): {sorted(retry_ids)}")
         print(f"Resuming — {len(done_ids)} jobs already done: {sorted(done_ids)}")
 
     for _, job in jobs.iterrows():

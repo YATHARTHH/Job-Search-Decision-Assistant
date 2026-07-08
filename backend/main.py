@@ -73,7 +73,7 @@ def get_anomaly_notes(row):
     notes.extend(safe_list_parse(row.get("red_flags", "[]")))
     return notes
 
-def compute_ranked_jobs():
+def compute_ranked_jobs(core_weight=None, learning_weight=None, exp_weight=None):
     structured = pd.read_csv(os.path.join(DATA_DIR, "jobs_structured.csv"))
     original = pd.read_csv(os.path.join(DATA_DIR, "job_postings.csv"))
     with open(os.path.join(DATA_DIR, "my_profile.json")) as f:
@@ -82,6 +82,16 @@ def compute_ranked_jobs():
     core_skills = profile["core_strength_skills"]
     learning_skills = profile["learning_in_progress_skills"]
     my_years = profile["years_experience"]
+
+    # Use provided weights if given (e.g. from Streamlit sliders), else fall back
+    # to profile.json's configured defaults, else the original hardcoded values.
+    default_weights = profile.get("scoring_weights", {})
+    w_core = core_weight if core_weight is not None else default_weights.get("core_skill_weight", 0.5)
+    w_learn = learning_weight if learning_weight is not None else default_weights.get("learning_skill_weight", 0.25)
+    w_exp = exp_weight if exp_weight is not None else default_weights.get("experience_fit_weight", 0.25)
+    weight_sum = w_core + w_learn + w_exp
+    if weight_sum > 0:
+        w_core, w_learn, w_exp = w_core / weight_sum, w_learn / weight_sum, w_exp / weight_sum
 
     merged = structured.merge(
         original[["job_id", "min_exp_years", "max_exp_years"]],
@@ -96,7 +106,7 @@ def compute_ranked_jobs():
         core_score = skill_match_score(job_skills, core_skills)
         learn_score = skill_match_score(job_skills, learning_skills)
         exp_score = experience_fit(job["min_exp_years"], job["max_exp_years"], my_years)
-        fit_score = round((0.5 * core_score + 0.25 * learn_score + 0.25 * exp_score) * 100, 1)
+        fit_score = round((w_core * core_score + w_learn * learn_score + w_exp * exp_score) * 100, 1)
         anomalies = get_anomaly_notes(job)
 
         rows.append({
@@ -154,10 +164,12 @@ def compute_forecast(n_future=10):
 # ---------- Endpoints ----------
 
 @app.get("/score")
-def get_score():
-    """Ranked job list with fit scores and anomaly flags."""
+def get_score(core_weight: float = None, learning_weight: float = None, exp_weight: float = None):
+    """Ranked job list with fit scores and anomaly flags.
+    Optional query params let you override the default weights from profile.json,
+    e.g. /score?core_weight=0.7&learning_weight=0.1&exp_weight=0.2"""
     try:
-        return {"jobs": compute_ranked_jobs()}
+        return {"jobs": compute_ranked_jobs(core_weight, learning_weight, exp_weight)}
     except FileNotFoundError as e:
         raise HTTPException(status_code=500, detail=f"Missing data file: {e}")
 
@@ -200,7 +212,7 @@ def ask_question(request: AskRequest):
     if not api_key:
         raise HTTPException(status_code=500, detail="GEMINI_API_KEY not set")
 
-    project_id = "job-search-assistant-501709"  # <-- Harry: replace with your real GCP project ID
+    project_id = "YOUR_PROJECT_ID"  # <-- Harry: replace with your real GCP project ID
     dataset = "job_search_data"
 
     schema_description = f"""
@@ -218,7 +230,7 @@ Table `{project_id}.{dataset}.jobs_structured`:
 Write ONE SQL query (no explanation, no markdown fences) that answers: {request.question}
 """
     try:
-        response = client.models.generate_content(model="gemini-2.5-flash-lite", contents=sql_prompt)
+        response = client.models.generate_content(model="gemini-2.5-flash", contents=sql_prompt)
     except Exception as e:
         error_str = str(e)
         if "RESOURCE_EXHAUSTED" in error_str or "429" in error_str:

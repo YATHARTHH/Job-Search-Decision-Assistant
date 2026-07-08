@@ -27,9 +27,16 @@ st.caption("Ranks real job postings against your profile, flags posting anomalie
 
 # ---------- Helpers ----------
 
-def fetch_scores():
+def fetch_scores(core_weight=None, learning_weight=None, exp_weight=None):
     try:
-        r = requests.get(f"{API_BASE}/score", timeout=10)
+        params = {}
+        if core_weight is not None:
+            params["core_weight"] = core_weight
+        if learning_weight is not None:
+            params["learning_weight"] = learning_weight
+        if exp_weight is not None:
+            params["exp_weight"] = exp_weight
+        r = requests.get(f"{API_BASE}/score", params=params, timeout=10)
         r.raise_for_status()
         return r.json()["jobs"], None
     except Exception as e:
@@ -62,7 +69,15 @@ tab1, tab2, tab3 = st.tabs(["Ranked Jobs", "Application Forecast", "Ask a Questi
 
 with tab1:
     st.subheader("Jobs ranked by fit score")
-    jobs, err = fetch_scores()
+
+    with st.expander("Tune scoring weights"):
+        st.caption("Adjust how much each factor matters. These are normalized automatically, so they don't need to add up to 1.")
+        col_a, col_b, col_c = st.columns(3)
+        core_w = col_a.slider("Core skill match", 0.0, 1.0, 0.5, 0.05)
+        learn_w = col_b.slider("Learning skill match", 0.0, 1.0, 0.25, 0.05)
+        exp_w = col_c.slider("Experience fit", 0.0, 1.0, 0.25, 0.05)
+
+    jobs, err = fetch_scores(core_w, learn_w, exp_w)
     if err:
         st.error(f"Could not load jobs: {err}\n\nIs the FastAPI backend running? (`uvicorn backend.main:app --reload`)")
     else:
