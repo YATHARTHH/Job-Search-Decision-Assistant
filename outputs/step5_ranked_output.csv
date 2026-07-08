@@ -1,0 +1,21 @@
+job_id,company,title,min_exp,max_exp,core_skill_%,learning_skill_%,exp_fit_%,fit_score,anomaly_count,anomalies
+12,Cognite,Machine Learning Engineer,3.0,6.0,31.2,0.0,100.0,40.6,1,Extensive tech stack listed for a mid-level experience range (3-6 years)
+9,Movate,Artificial Intelligence Engineer (GenAI & Agentic AI),1.0,4.0,28.1,0.0,100.0,39.1,1,"Extensive tech stack and responsibilities for a 1-4 year experience range, potentially indicating breadth over depth or high expectations for junior end."
+1,KPMG India,AI Engineer,4.0,8.0,34.4,0.0,83.3,38.0,0,
+18,Nians,Generative AI Engineer,1.0,,21.9,0.0,100.0,35.9,1,Expected broad expertise in modern AI tooling and complex system design for a stated 1+ year experience preference
+7,Finkraft,AI Engineer,4.0,6.0,28.1,0.0,83.3,34.9,0,
+3,Accelirate Inc.,Generative AI Engineer,3.0,5.0,18.8,0.0,100.0,34.4,0,
+17,Augury,GenAI Engineer (AgenticAI),2.0,4.0,15.6,0.0,100.0,32.8,1,"High expectations for 2-4 years of experience, demanding end-to-end ownership and diverse skills"
+4,Ascendion,Generative AI Engineer,4.0,,21.9,0.0,83.3,31.8,0,
+14,Chubb,AI/ML Engineer,4.0,,21.9,0.0,83.3,31.8,1,"Additional specific year requirements added by poster, potentially implying higher overall experience than the main stated minimum."
+13,Infosys,AI Engineers,,,37.5,0.0,50.0,31.2,1,Mismatched primary skills metadata (Turbomachinery -> Steam Turbine -> Rotor)
+16,Nielsen,Machine Learning Engineer (MLE-3),3.0,6.0,6.2,0.0,100.0,28.1,0,
+8,Ecolab,AI Engineer,2.0,4.0,6.2,0.0,100.0,28.1,0,
+5,Persistent Systems,GenAI Engineer (Agentic AI),3.0,9.0,0.0,0.0,100.0,25.0,1,GEMINI_PARSE_FAILED: structured extraction failed for this posting
+10,Accenture in India,AI / ML Engineer,5.0,,21.9,0.0,50.0,23.4,2,REQUIREMENTS_VAGUE: Gemini flagged this posting's requirements as vague | Inconsistent experience requirement: 'Minimum 5 Year(s) of Experience Required' vs 'minimum 3 years ML/AI engineering'
+15,Hitachi Digital Services,AI/ML Engineer(s),5.0,,21.9,0.0,50.0,23.4,0,
+19,Toptal,Artificial Intelligence Engineer (AI Implementation Engineer),,,18.8,0.0,50.0,21.9,0,
+20,Siemens Digital Industries Software,AI Software Engineer (GenAI & Agentic Systems),,,18.8,0.0,50.0,21.9,0,
+2,Birlasoft,Generative AI Engineer,10.0,15.0,37.5,0.0,0.0,18.8,0,
+6,Lenovo,AI / GenAI Engineer,5.0,,12.5,0.0,50.0,18.8,0,
+11,LTM,Machine Learning Engineer,,,0.0,0.0,50.0,12.5,3,"REQUIREMENTS_MISSING: Gemini flagged this posting's requirements as missing | Generic recruiter outreach, not a structured job description | Missing structured requirements, skills list, experience range, or responsibilities"

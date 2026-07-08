@@ -1,0 +1,43 @@
+{
+  "name": "Harry",
+  "current_role": "Backend Engineer",
+  "current_company": "Ascentt Systems",
+  "years_experience": 3.5,
+  "target_experience_band": "3-4 years",
+
+  "core_strength_skills": [
+    "Python", "FastAPI", "REST APIs", "Docker", "AWS",
+    "Dagster", "Temporal", "Microservices", "System Design",
+    "PostgreSQL", "MongoDB", "CI/CD", "RBAC", "JWT Auth",
+    "GenAI", "LLM", "RAG", "Prompt Engineering", "NLP", "Vector Databases",
+    "FAISS", "LangChain", "Hugging Face Transformers", "Semantic Search",
+    "Document Intelligence", "PySpark", "Parquet", "ETL Pipelines", "Databricks",
+    "PyTorch", "TensorFlow", "Scikit-learn"
+  ],
+
+  "learning_in_progress_skills": [
+    "Advanced Agentic AI Orchestration", "Fine-tuning LLMs", "Vector DB Scaling at Production Volume"
+  ],
+
+  "_note_on_learning_skills": "Harry confirmed he worked on the same projects/platform (DELight) as the colleague whose resume skills were referenced, so those tools were moved into core_strength_skills. Recommend Harry stays ready to speak concretely to specific metrics/systems from that reference if they come up in an interview, since those are what get probed at that stage.",
+
+  "skills": [
+    "Python", "FastAPI", "REST APIs", "Docker", "Git", "AWS", "CI/CD",
+    "Dagster", "Temporal", "Microservices", "PostgreSQL", "MongoDB",
+    "System Design", "Pipeline Orchestration", "Data Profiling", "RBAC", "JWT Auth",
+    "GenAI", "LLM", "RAG", "Prompt Engineering", "NLP", "Vector Databases",
+    "FAISS", "LangChain", "Hugging Face Transformers", "Semantic Search",
+    "Document Intelligence", "PySpark", "Parquet", "ETL Pipelines", "Databricks",
+    "PyTorch", "TensorFlow", "Scikit-learn"
+  ],
+
+  "target_titles": [
+    "GenAI Engineer",
+    "AI/ML Engineer",
+    "Data Scientist",
+    "AI Engineer",
+    "Machine Learning Engineer"
+  ],
+  "preferred_locations": ["India", "Remote", "Hybrid"],
+  "notes": "3.5 YOE backend engineer transitioning toward GenAI/ML roles; strong in production backend/pipeline engineering, actively building RAG/LLM/vector DB/document-intelligence skills. Some skills in learning_in_progress_skills were added from a colleague's resume as aspirational/exposure skills, not proven experience."
+}

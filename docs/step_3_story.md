@@ -1,0 +1,12 @@
+What happened in Step 3, plain terms
+What we started with: We wanted to prove "GPU makes this faster." So we built a test: take job description text, search it for skill keywords (like "Python", "AWS", "RAG"), on 200,000 rows. We ran it two ways — once on your normal CPU, once on a GPU (via Colab).
+What we found (twice): The GPU version was slower, not faster. First try: 27s (GPU) vs 13s (CPU). We thought "maybe our code is inefficient," so we rewrote it to be smarter — combined 20 separate checks into 1. Second try: GPU was still slower (36s vs 24s), and weirdly, our "smarter" rewrite made the CPU version slower too.
+Why this happened: GPUs are amazing at doing millions of identical simple math operations at once — but they're bad at starting up and moving data back and forth. Every time you ask the GPU to do something, there's a small delay just to hand it the work and get the answer back. Searching text for keywords is a light, quick task — so that "handing over" delay costs more than the GPU saves you. It's like hiring a forklift to move one box across the room — the forklift is powerful, but for one box, a person just carrying it is faster.
+What we changed: Instead of text search, we tested something GPUs are actually built for — big number-crunching. Specifically: comparing your profile against 1 million jobs using math (vector similarity — the same kind of math behind "how similar are these two things"). This is heavy arithmetic on huge grids of numbers, which is exactly what a GPU is a forklift for.
+What we gained:
+
+A real, honest result: 8.36s (CPU) → 0.20s (GPU) — a genuine 41x speedup, not a made-up number.
+A better understanding, provable with evidence: acceleration doesn't help everywhere — it helps for big numeric math, not small text search. That's a real insight, not a guess.
+A better product design too: this pushed us toward using embeddings/similarity scoring for your actual fit-score feature later (Step 5), instead of just naive keyword matching — a genuinely smarter approach that also happens to be the one GPUs accelerate well. Two birds, one stone.
+
+That's the whole story — test, get a surprising result, understand why, adjust, get a real win. That's actually more convincing to show a judge than a single suspiciously-perfect number.
