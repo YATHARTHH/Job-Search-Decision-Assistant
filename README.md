@@ -21,6 +21,15 @@ postings to apply to during an active job search.
 3. **Forecasts application outcomes** - callback rate trends and projections
 4. **Answers natural language questions** - Gemini writes SQL against BigQuery in
    real time
+5. **Adds new job postings on demand** - paste a JD, Gemini extracts structured
+   data and scores it against your profile immediately
+6. **Gives skill-gap advice** - Gemini reviews the raw keyword-matched skill gaps
+   for a job and filters out false positives, returning what's genuinely worth
+   learning
+7. **Generates interview prep briefs** - likely questions, real-project talking
+   points, and a fit pitch tailored to a specific job posting
+8. **Semantic fit scoring** - compares profile and job postings by embedding
+   similarity (meaning), not just keyword overlap
 
 ## Architecture
 
@@ -33,7 +42,8 @@ Job postings (CSV) --> Cloud Storage
                             |
                         BigQuery
                             |
-              FastAPI (/score, /forecast, /ask)
+     FastAPI (/score, /forecast, /ask, /add_job,
+      /skill_gap_advice, /interview_prep)
                             |
                    Streamlit dashboard
                             |
@@ -83,7 +93,8 @@ the production design choice to move toward embeddings-based similarity scoring.
 JobSearchDecisionAssistant/
 ├── data/                   Real + synthetic datasets, profile, structured Gemini output
 ├── scripts/                Step 1-5 + benchmark + forecast scripts
-├── backend/main.py         FastAPI app (/score, /forecast, /ask)
+├── backend/main.py         FastAPI app (/score, /forecast, /ask, /add_job,
+│                            /skill_gap_advice, /interview_prep)
 ├── frontend/app.py         Streamlit dashboard
 ├── outputs/                Ranked results from each step
 ├── docs/                   This README, PPT outline, project status tracker
@@ -99,6 +110,8 @@ python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
+cp .env.example .env  # then fill in GEMINI_API_KEY
+
 # Terminal 1
 uvicorn backend.main:app --reload
 
@@ -106,15 +119,16 @@ uvicorn backend.main:app --reload
 streamlit run frontend/app.py
 ```
 
-Requires a `GEMINI_API_KEY` (free at aistudio.google.com) and a GCP project with
-BigQuery enabled for the `/ask` endpoint specifically; `/score` and `/forecast` work
-with no external credentials.
+Requires a `GEMINI_API_KEY` (free at aistudio.google.com) for `/add_job`,
+`/skill_gap_advice`, `/interview_prep`, and `/ask`, plus a GCP project with
+BigQuery enabled specifically for `/ask`. `/score` and `/forecast` work with no
+external credentials. The key is loaded from `.env` via `python-dotenv` - it is
+gitignored, so it's never committed.
 
 ## Deployment
 
 Container is deployment-ready (Dockerfile + start.sh included) for Cloud Run, AWS
-(App Runner/ECS/Fargate), or any Docker-compatible host. Deployment commands are
-documented in `docs/DEPLOYMENT.md`.
+(App Runner/ECS/Fargate), or any Docker-compatible host.
 
 ## Tech Stack
 
