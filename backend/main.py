@@ -28,10 +28,13 @@ import json
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
 OUTPUT_DIR = os.path.join(BASE_DIR, "..", "outputs")
+
+load_dotenv(os.path.join(BASE_DIR, "..", ".env"))
 
 app = FastAPI(title="Job Search Decision Assistant API")
 
