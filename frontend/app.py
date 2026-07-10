@@ -61,10 +61,47 @@ def ask_question(question):
     except Exception as e:
         return None, str(e)
 
+def submit_new_job(company, title, jd_text, location):
+    try:
+        r = requests.post(
+            f"{API_BASE}/add_job",
+            json={"company": company, "title": title, "jd_text": jd_text, "location": location},
+            timeout=30,
+        )
+        r.raise_for_status()
+        return r.json(), None
+    except requests.exceptions.HTTPError as e:
+        detail = e.response.json().get("detail", str(e)) if e.response is not None else str(e)
+        return None, detail
+    except Exception as e:
+        return None, str(e)
+
+def fetch_gap_advice(job_id):
+    try:
+        r = requests.post(f"{API_BASE}/skill_gap_advice", json={"job_id": job_id}, timeout=30)
+        r.raise_for_status()
+        return r.json(), None
+    except requests.exceptions.HTTPError as e:
+        detail = e.response.json().get("detail", str(e)) if e.response is not None else str(e)
+        return None, detail
+    except Exception as e:
+        return None, str(e)
+
+def fetch_interview_prep(job_id):
+    try:
+        r = requests.post(f"{API_BASE}/interview_prep", json={"job_id": job_id}, timeout=30)
+        r.raise_for_status()
+        return r.json(), None
+    except requests.exceptions.HTTPError as e:
+        detail = e.response.json().get("detail", str(e)) if e.response is not None else str(e)
+        return None, detail
+    except Exception as e:
+        return None, str(e)
+
 
 # ---------- Layout: three tabs ----------
 
-tab1, tab2, tab3 = st.tabs(["Ranked Jobs", "Application Forecast", "Ask a Question"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Ranked Jobs", "Application Forecast", "Ask a Question", "Add New Job", "Interview Prep"])
 
 
 with tab1:
@@ -92,6 +129,30 @@ with tab1:
             use_container_width=True, hide_index=True
         )
         st.caption(f"Showing all {len(df)} jobs, ranked highest fit first.")
+
+        st.divider()
+        st.subheader("Skill gap advice")
+        st.caption("Pick a job to see which skills are genuinely worth learning for it - Gemini filters out near-miss false positives from the raw keyword comparison.")
+        job_options = {f"{j['company']} - {j['title']}": j["job_id"] for j in jobs}
+        selected_label = st.selectbox("Job", options=list(job_options.keys()))
+        if st.button("Get Gap Advice"):
+            selected_job_id = job_options[selected_label]
+            with st.spinner("Asking Gemini to review the skill gaps..."):
+                advice_result, err = fetch_gap_advice(selected_job_id)
+            if err:
+                st.error(err)
+            else:
+                advice = advice_result["advice"]
+                st.info(advice["priority_suggestion"])
+                col_gap, col_fp = st.columns(2)
+                with col_gap:
+                    st.markdown("**Genuinely worth learning:**")
+                    for skill in advice.get("genuine_gaps", []):
+                        st.write(f"- {skill}")
+                with col_fp:
+                    st.markdown("**Probably already covered (false positives filtered out):**")
+                    for skill in advice.get("likely_false_positives", []):
+                        st.write(f"- {skill}")
 
 
 with tab2:
@@ -137,3 +198,72 @@ with tab3:
                 st.dataframe(pd.DataFrame(result["result"]), use_container_width=True, hide_index=True)
             else:
                 st.write("No results returned.")
+
+
+with tab4:
+    st.subheader("Add a new job posting")
+    st.caption("Paste a job description below. Gemini will extract structured data and score it against your profile automatically.")
+
+    with st.form("add_job_form"):
+        new_company = st.text_input("Company")
+        new_title = st.text_input("Job Title")
+        new_location = st.text_input("Location", value="Not specified")
+        new_jd_text = st.text_area("Full Job Description Text", height=250,
+                                     placeholder="Paste the complete job description here...")
+        submitted = st.form_submit_button("Add Job & Score It")
+
+    if submitted:
+        if not new_company or not new_title or not new_jd_text:
+            st.warning("Company, Job Title, and Job Description are all required.")
+        else:
+            with st.spinner("Extracting structured data with Gemini and computing fit score..."):
+                result, err = submit_new_job(new_company, new_title, new_jd_text, new_location)
+            if err:
+                st.error(err)
+            else:
+                st.success(result["message"])
+                job_result = result["result"]
+                if job_result:
+                    col1, col2 = st.columns(2)
+                    col1.metric("Fit Score", job_result["fit_score"])
+                    col2.metric("Experience Range", f"{job_result['min_exp']} - {job_result['max_exp']}")
+                    if job_result["anomalies"]:
+                        st.warning("Anomalies flagged: " + "; ".join(job_result["anomalies"]))
+                    else:
+                        st.info("No anomalies flagged.")
+                st.caption("Switch to the Ranked Jobs tab to see it in context with everything else.")
+
+
+with tab5:
+    st.subheader("Interview prep, on demand")
+    st.caption("Pick any job and generate a prep brief - likely questions, real project talking points, and a fit pitch. Works whenever you want, not tied to application status.")
+
+    jobs, err = fetch_scores()
+    if err:
+        st.error(f"Could not load jobs: {err}")
+    else:
+        job_options = {f"{j['company']} - {j['title']}": j["job_id"] for j in jobs}
+        selected_label = st.selectbox("Job", options=list(job_options.keys()), key="prep_job_select")
+        if st.button("Generate Interview Prep"):
+            selected_job_id = job_options[selected_label]
+            with st.spinner("Generating prep brief with Gemini..."):
+                prep_result, err = fetch_interview_prep(selected_job_id)
+            if err:
+                st.error(err)
+            else:
+                prep = prep_result["prep"]
+                st.markdown(f"### {prep_result['title']} at {prep_result['company']}")
+
+                st.markdown("**Fit pitch:**")
+                st.info(prep["fit_pitch"])
+
+                st.markdown("**Likely interview questions:**")
+                for i, q in enumerate(prep.get("likely_questions", []), 1):
+                    st.write(f"{i}. {q}")
+
+                st.markdown("**How to frame your real projects for this role:**")
+                for mapping in prep.get("star_story_mapping", []):
+                    st.write(f"- {mapping}")
+
+                st.markdown("**If asked about gaps:**")
+                st.write(prep.get("gap_talking_points", ""))
