@@ -1,48 +1,48 @@
 job_id,company,title,location,min_exp_years,max_exp_years,source,date_scraped,jd_text
-1,KPMG India,AI Engineer,Bengaluru / Mumbai / NCR / Hyderabad,4,8,LinkedIn,2026-07-07,"AI Engineer (LLM & Application Development), full-time on-site role.
+1,KPMG India,AI Engineer,Bengaluru / Mumbai / NCR / Hyderabad,4.0,8.0,LinkedIn,2026-07-07,"AI Engineer (LLM & Application Development), full-time on-site role.
 Experience Level: 4-8 Years.
 Role Overview: Bridge AI research and practical, scalable software. Design, build, and deploy AI-powered applications with heavy focus on LLMs, prompt engineering, and robust Python backends.
 Key Responsibilities: Design/build/optimize applications leveraging LLMs (OpenAI, Anthropic, open-source models); implement RAG, agentic workflows, and fine-tuning; write clean, maintainable, scalable Python code for APIs/backend services; apply CI/CD, automated testing, Git, Docker/Kubernetes; optimize AI pipelines for latency, cost, throughput; integrate vector databases (Pinecone, Chroma, Milvus); partner with product managers, data scientists, front-end engineers.
 Required Skills: 4-8 years professional software engineering, at least 2 years building/deploying AI/LLM-powered applications; mastery of Python (FastAPI, Flask, Django); LangChain, LlamaIndex, or AutoGen; strong data structures, system design, RESTful APIs, microservices; cloud deployment (AWS/GCP/Azure) and MLOps/LLMOps; Bachelor's or Master's in CS/Engineering.
 Nice-to-Haves: React/TypeScript for prototyping; evaluation frameworks (Ragas, TruLens); open-source contributions."
-2,Birlasoft,Generative AI Engineer,Not specified,4,6,LinkedIn,2026-07-07,"GenAI Developer/Engineer. Total Experience: 10-15 years; AI-ML and GenAI Experience: 4-6 years.
+2,Birlasoft,Generative AI Engineer,Not specified,4.0,6.0,LinkedIn,2026-07-07,"GenAI Developer/Engineer. Total Experience: 10-15 years; AI-ML and GenAI Experience: 4-6 years.
 Responsible for building, deploying, operating GenAI solutions using modern agentic architectures.
 Core Responsibilities: Design/develop/deploy GenAI and ML solutions using Azure OpenAI, Azure ML, Azure AI Studio; build LLM-powered apps with prompt engineering, tool/function calling, RAG, agentic AI patterns; develop Agent-to-Agent (A2A) workflows; implement Model Context Protocol (MCP); apply MLOps/LLMOps (CI/CD for models/prompts, versioning, monitoring, evaluation, hallucination/drift detection); implement LLM security/guardrails (prompt injection prevention, data leakage protection, output moderation); fine-tune models for token economics, latency, cost; build secure APIs/microservices; mentor junior engineers.
 Technology Stack: Python; Azure OpenAI/open-source/local LLMs; Azure ML, Databricks, AI Services; LangChain, LangGraph, Semantic Kernel; MCP, A2A, RAG variants; Docker, REST APIs, CI/CD; SQL RDBMS, vector databases; Neo4j, GraphDB."
-3,Accelirate Inc.,Generative AI Engineer,Pune or Remote,3,5,LinkedIn,2026-07-07,"Notice Period: Immediate/Serving. Experience: 3 to 5 Years. Location: Pune or Remote.
+3,Accelirate Inc.,Generative AI Engineer,Pune or Remote,3.0,5.0,LinkedIn,2026-07-07,"Notice Period: Immediate/Serving. Experience: 3 to 5 Years. Location: Pune or Remote.
 Job Summary: Deep expertise in fine-tuning and optimizing LLMs (GPT, DeepSeek, LLAMA, BERT, MistralAI, Hugging Face). Strong background in RAG, agentive AI frameworks (LangGraph), building scalable secure AI solutions for autonomous agents and enterprise applications.
 Key Responsibilities: Fine-tune/optimize LLMs for specific use cases; design/implement advanced RAG pipelines; build/deploy autonomous AI agents using LangGraph; develop/integrate RESTful APIs; collaborate cross-functionally; evaluate cutting-edge AI tech; ensure model efficiency, scalability, security compliance.
 Required Skills: Proven LLM experience and model fine-tuning; hands-on RAG and LangGraph or similar; Python, C#, Claude Code, GitHub Copilot; PyTorch, TensorFlow, Hugging Face ecosystem; AI model deployment and inference optimization; prompt engineering and performance tuning."
-4,Ascendion,Generative AI Engineer,Pune / Gurgaon / Noida / Bangalore,4,,LinkedIn,2026-07-07,"Job Title: GenAI Engineer. Experience: 4+ years. Location Options: Pune, Gurgaon, Noida, Bangalore.
+4,Ascendion,Generative AI Engineer,Pune / Gurgaon / Noida / Bangalore,4.0,,LinkedIn,2026-07-07,"Job Title: GenAI Engineer. Experience: 4+ years. Location Options: Pune, Gurgaon, Noida, Bangalore.
 Skills: Generative AI Concepts, Coding & Debugging, Cloud Deployment expertise, Soft skills/Communication.
 Job Description: Work with client stakeholders to translate requirements into AI/GenAI-based solutions; design/develop/deploy Generative AI models leveraging LLMs (OpenAI, Anthropic, Hugging Face); build prompt frameworks, embeddings, RAG pipelines; integrate AI models with enterprise workflows/APIs; fine-tune/customize foundation models for client use cases; ensure model performance, scalability, cost efficiency; document solution designs; apply Python and GenAI frameworks and vector databases (Pinecone, Weaviate, FAISS); use cloud platforms (AWS, Azure, GCP), Git/GitHub, CI/CD.
 Requirements added by poster: 2+ yrs LLM; 4+ yrs IT; 2+ yrs Generative AI; 3+ yrs Python."
-5,Persistent Systems,GenAI Engineer (Agentic AI),All Persistent Locations (India),3,9,LinkedIn,2026-07-07,"Role: Agentic AI / GenAI Engineer. Experience: 3 to 9 years. Job Type: Full Time.
+5,Persistent Systems,GenAI Engineer (Agentic AI),All Persistent Locations (India),3.0,9.0,LinkedIn,2026-07-07,"Role: Agentic AI / GenAI Engineer. Experience: 3 to 9 years. Job Type: Full Time.
 What You'll Do: Design/develop agentic AI systems (single- and multi-agent workflows); implement planning, memory, tool-use patterns, human-in-the-loop; build/deploy/scale production-grade GenAI solutions; integrate AI agents with enterprise applications/APIs/data sources using secure governed access; implement RAG, enterprise knowledge grounding, vector search; contribute to LLMOps/AgentOps (evaluation, monitoring, debugging, optimization); ensure Responsible AI practices (security, access control, governance, auditability); support observability, performance tuning, cost optimization; mentor junior engineers.
 Expertise: 3-9 years software/AI engineering; at least 1 year hands-on GenAI/LLM solutions; strong Python; agentic design patterns, tool-use, multi-agent orchestration; RAG pipelines, vector databases; LLMOps/AgentOps exposure; experience with Azure/AWS/Bedrock/GCP Vertex AI; open-source and proprietary LLMs."
-6,Lenovo,AI / GenAI Engineer,Not specified,5,,LinkedIn,2026-07-07,"Role Summary: AI/ML Engineer with strong Python skills, building production-ready AI systems including multi-agent systems and RAG pipelines, ensuring scalability, reliability, cost efficiency.
+6,Lenovo,AI / GenAI Engineer,Not specified,5.0,,LinkedIn,2026-07-07,"Role Summary: AI/ML Engineer with strong Python skills, building production-ready AI systems including multi-agent systems and RAG pipelines, ensuring scalability, reliability, cost efficiency.
 Key Responsibilities: Model integration (deploy/maintain ML models in production); agentic frameworks (LangGraph, CrewAI, AutoGen) for multi-agent systems; RAG (hybrid search, reranking, semantic chunking) with Pinecone/Weaviate/Chroma; Model Context Protocol (MCP) familiarity; data pipeline support (clean/preprocess/augment datasets); prompt engineering; token optimization; MLOps basics (CI/CD, model versioning, automated prompt testing); code reviews, sprint planning, documentation; continuous learning.
 Qualifications: Bachelor's in CS/Data Science or related; Python proficiency; basic ML concepts; RESTful APIs; Git; experimentation mindset; 5+ years relevant experience."
-7,Finkraft,AI Engineer,Not specified (fintech startup),4,6,LinkedIn,2026-07-07,"About Finkraft: Fast-growing fintech startup building infrastructure to simplify financial operations, embedding production-grade AI/agentic systems into core workflows.
+7,Finkraft,AI Engineer,Not specified (fintech startup),4.0,6.0,LinkedIn,2026-07-07,"About Finkraft: Fast-growing fintech startup building infrastructure to simplify financial operations, embedding production-grade AI/agentic systems into core workflows.
 Role Overview: Design/scale agentic AI systems moving beyond experimentation into real-world usage; build intelligent agents; integrate LLMs into production; own AI systems end-to-end.
 What You'll Do: Build/deploy AI agents for multi-step workflows; design RAG pipelines, tool usage, memory, orchestration logic; integrate LLMs into production with monitoring/safety; define evaluation metrics/feedback loops/guardrails; select/manage LLMs, vector databases, frameworks; deploy on AWS infrastructure/microservices; work with data pipelines (Python, Airflow); implement AI testing/monitoring (Selenium, Playwright); integrate with PostgreSQL & MongoDB.
 Requirements: 4-6 years AI Engineering; hands-on LLMs, RAG, vector stores, agent frameworks; strong Python and system design; production AI deployment experience."
-8,Ecolab,AI Engineer,Not specified,2,4,LinkedIn,2026-07-07,"Job Characteristics: Independently design, implement, deploy intelligent systems powered by LLMs, agent orchestration frameworks, embedding-based retrieval solutions. Blends hands-on engineering with solution thinking - scalable workflows, cloud-native delivery, real-world GenAI application integration.
+8,Ecolab,AI Engineer,Not specified,2.0,4.0,LinkedIn,2026-07-07,"Job Characteristics: Independently design, implement, deploy intelligent systems powered by LLMs, agent orchestration frameworks, embedding-based retrieval solutions. Blends hands-on engineering with solution thinking - scalable workflows, cloud-native delivery, real-world GenAI application integration.
 Education/Work Experience: Degree and 2-4 years experience.
 Reports to: AI Engineering Manager.
 Company: Global sustainability leader in water, hygiene, infection prevention solutions; $16B annual sales; ~48,000 associates in 170+ countries."
-9,Movate,Artificial Intelligence Engineer (GenAI & Agentic AI),"Bangalore (Work From Office, 5 days)",1,4,LinkedIn,2026-07-07,"Role: AI/ML Engineer - Generative AI & Agentic AI. Experience: 1-4 Years. Location: Bangalore. Work Mode: WFO 5 Days. Employment Type: Permanent.
+9,Movate,Artificial Intelligence Engineer (GenAI & Agentic AI),"Bangalore (Work From Office, 5 days)",1.0,4.0,LinkedIn,2026-07-07,"Role: AI/ML Engineer - Generative AI & Agentic AI. Experience: 1-4 Years. Location: Bangalore. Work Mode: WFO 5 Days. Employment Type: Permanent.
 Job Summary: Strong expertise in Machine Learning, Deep Learning, Generative AI, Agentic AI systems. Design/develop/deploy/optimize AI-driven solutions across PoC and production.
 Key Responsibilities: Design/develop/deploy end-to-end AI/ML and GenAI solutions; build/optimize ML, Deep Learning, LLM-based applications; develop Agentic AI workflows (orchestration, planning, memory, multi-agent coordination); data preparation, feature engineering, model training/evaluation/deployment/monitoring; build scalable AI pipelines integrated with APIs/enterprise systems; implement MLOps/LLMOps.
 Required Skills: Bachelor's/Master's in CS/AI/Data Science; 1+ years AI/ML/GenAI/Agentic AI; ML/Deep Learning; Prompt Engineering, RAG, AI agents; Python, LangChain, LlamaIndex, CrewAI, AutoGen, Semantic Kernel; TensorFlow, PyTorch, Scikit-learn; vector databases; cloud platforms; MLOps/LLMOps; workflow orchestration (Airflow/Prefect).
 Preferred: multi-agent systems; Docker/Kubernetes; Spark; telecom domain; Tableau/Power BI; AI governance."
-10,Accenture in India,AI / ML Engineer,Bengaluru,5,,LinkedIn,2026-07-07,"Project Role: AI / ML Engineer. Must have skills: Machine Learning (ML). Minimum 5 Year(s) of Experience Required. Educational Qualification: 15 years full time education (later states minimum 3 years ML/AI engineering, AI-native experience preferred - inconsistent experience requirement in same posting).
+10,Accenture in India,AI / ML Engineer,Bengaluru,5.0,,LinkedIn,2026-07-07,"Project Role: AI / ML Engineer. Must have skills: Machine Learning (ML). Minimum 5 Year(s) of Experience Required. Educational Qualification: 15 years full time education (later states minimum 3 years ML/AI engineering, AI-native experience preferred - inconsistent experience requirement in same posting).
 Role Summary: Hands-on AI Native Engineer to design/build/deploy end-to-end agentic and LLM-powered systems; RAG pipelines; vector databases; autonomous/semi-autonomous agents; evaluation frameworks.
 Key Responsibilities: Agentic & LLM system development (orchestration, planning loops, tool calling, memory modules); RAG pipelines & vector intelligence (ingestion, chunking, embeddings, indexing, hybrid retrieval, grounding) with pgvector/Pinecone/Weaviate/Milvus; model integration & AI Ops (enterprise AI APIs, evaluation frameworks, monitoring drift/hallucination); full-stack & cloud alignment (Python/Node/Java microservices, serverless, Azure/AWS/GCP, CI/CD); prototyping and rapid iteration.
 Must-Have: LLMs, agent frameworks (LangChain, LlamaIndex, Semantic Kernel, LangGraph, AutoGen), vector DBs, strong Python, transformer models, prompt engineering, production deployment with monitoring/fallback."
 11,LTM,Machine Learning Engineer,Not specified,,,LinkedIn,2026-07-07,"Generic recruiter outreach message (not a structured job description): ""We are impressed by your GEN AI/AI+ML/Mlops experience. We are having multiple opportunities and projects based on GEN AI/AI+ML/Mlops. Please share your updated resume via the linked form.""
 NOTE: This posting contains no structured requirements, skills list, experience range, or responsibilities section - flagged as a data-quality anomaly (incomplete/low-information job posting) rather than a comparable JD."
-12,Cognite,Machine Learning Engineer,Bengaluru (global org),3,6,LinkedIn,2026-07-07,"About Cognite: Industrial digitalization, AI and data solutions; low-code AI agents. Building next-gen contextual AI for Industrial Operations, transforming unstructured industrial data (manuals, P&IDs) into structured intelligence using Deep Learning, GenAI, Computer Vision.
+12,Cognite,Machine Learning Engineer,Bengaluru (global org),3.0,6.0,LinkedIn,2026-07-07,"About Cognite: Industrial digitalization, AI and data solutions; low-code AI agents. Building next-gen contextual AI for Industrial Operations, transforming unstructured industrial data (manuals, P&IDs) into structured intelligence using Deep Learning, GenAI, Computer Vision.
 About the Role: Build models/pipelines powering industrial contextualization platform; engineering-first role turning research prototypes into high-performance real-time applications.
 Key Responsibilities: Build/test/maintain robust data pipelines for large-scale industrial datasets; assist deploying data science prototypes to production; write high-quality testable Python for RESTful/gRPC APIs; containerize (Docker), navigate Linux for large unstructured data; run experiments, fine-tune foundational models (NLP, Vision-Language); write unit/integration tests, monitor drift/performance.
 Required Skills: Bachelor's/Master's CS/Data Science/Software Engineering; 3-6 years industry experience in software engineering with ML focus; strong Python; PyTorch/TensorFlow/Hugging Face/LangChain; large datasets, complex SQL, PySpark/Pandas at scale/Dask; MLOps basics, Docker, Linux, cloud (AWS/Azure/GCP).
@@ -51,21 +51,21 @@ Preferred: VLMs/Computer Vision; RAG pipelines, vector databases (Pinecone, Milv
 Key Responsibilities: Design/develop/deploy machine learning and AI models; build/maintain data pipelines for training/inference; supervised/unsupervised learning algorithms; implement NLP, Computer Vision, Deep Learning solutions; optimize models for performance/scalability/accuracy; collaborate with data engineers/analysts/product teams; deploy models on cloud (AWS/Azure/GCP); monitor model performance; data preprocessing, feature engineering, model evaluation; documentation.
 Required Skills: Strong Python; Scikit-learn, TensorFlow/PyTorch; Pandas/NumPy; ML algorithms (regression, classification, clustering); Deep Learning frameworks; NLP/Computer Vision; model deployment (APIs, microservices); statistics/probability.
 Preferred: Generative AI/LLMs (GPT, LangChain, Hugging Face); MLOps (MLflow, Kubeflow, Airflow); Docker/Kubernetes; Big Data (Spark, PySpark); REST APIs; cloud AI services; vector databases/embeddings (FAISS, Pinecone); CI/CD/DevOps."
-14,Chubb,AI/ML Engineer,"Bangalore, India",4,,LinkedIn,2026-07-07,"About Chubb India: Insurance company, 2500+ professionals, Great Place to Work certified 3 years running.
+14,Chubb,AI/ML Engineer,"Bangalore, India",4.0,,LinkedIn,2026-07-07,"About Chubb India: Insurance company, 2500+ professionals, Great Place to Work certified 3 years running.
 Position: Advanced Analytics function, Bangalore, Full-time. Deep Learning Engineer with Generative AI experience to develop/scale Generative AI capabilities - designing, fine-tuning, training LLMs and Generative AI systems for conversational abilities and decision-making.
 Responsibilities: Develop/improve Generative AI systems for high-quality decision making, query answering, automated communication; own entire process of data collection, training, deploying ML models; research/implement cutting-edge deep learning/NLP/GenAI techniques; work with Data Scientists/ML Engineers on end-to-end solutions; optimize/streamline deep learning training pipelines; develop performance metrics.
 Requirements: Minimum 4 years industry experience in deep learning with NLP/GenAI focus; TensorFlow, PyTorch, Keras; cloud (Azure) for training/deployment; Hugging Face Transformers; large dataset processing (preprocessing, cleaning, normalization); Python/R; NLP techniques/libraries.
 Requirements added by poster: 3+ yrs LLMOps; 2+ yrs Agentic AI Development; 5+ yrs Python."
-15,Hitachi Digital Services,AI/ML Engineer(s),Not specified,5,,LinkedIn,2026-07-07,"AI/ML Engineer(s), 5+ years of experience in Data/AI projects (P3).
+15,Hitachi Digital Services,AI/ML Engineer(s),Not specified,5.0,,LinkedIn,2026-07-07,"AI/ML Engineer(s), 5+ years of experience in Data/AI projects (P3).
 Job Description: Design/develop/train ML and deep learning models using TensorFlow, PyTorch, scikit-learn; knowledge of supervised/unsupervised/reinforcement learning; feature engineering and data processing; deploy ML models into production with seamless integration using CI/CD, containerization (Docker, Kubernetes), cloud platforms (AWS or Azure); MLOps practices; Python programming; ETL experience preferred."
-16,Nielsen,Machine Learning Engineer (MLE-3),Not specified,3,6,LinkedIn,2026-07-07,"About the Role: Key contributor building/deploying end-to-end ML models with autonomy on well-defined projects, translating business needs into functional scalable ML solutions.
+16,Nielsen,Machine Learning Engineer (MLE-3),Not specified,3.0,6.0,LinkedIn,2026-07-07,"About the Role: Key contributor building/deploying end-to-end ML models with autonomy on well-defined projects, translating business needs into functional scalable ML solutions.
 Responsibilities: Independently build/train/deploy ML models for complex projects; design/maintain robust end-to-end ML pipelines (data processing to model serving); contribute to technical design/system architecture; collaborate with business/product/engineering teams; write production-ready code, participate in code reviews; mentor interns/junior engineers.
 Qualifications: Bachelor's/Master's in Engineering, Mathematics, Statistics, or related; 3-6 years professional ML engineering experience; proven production ML deployment; strong Python, SQL, distributed computing (Spark); data analytics (statistical analysis, visualization, reporting); hands-on AI experience with LLMs/GenAI applications; workflow orchestration (Airflow), MLflow preferred; classification/regression/anomaly detection/boosted models/deep learning with large datasets."
-17,Augury,GenAI Engineer (AgenticAI),Not specified (Industrial AI),2,4,LinkedIn,2026-07-07,"Role: GenAI Engineer for AgenticAI, combining AgenticAI with Industrial AI for manufacturing challenges. Own end-to-end lifecycle of GenAI applications from problem definition/experimentation to production deployment/monitoring.
+17,Augury,GenAI Engineer (AgenticAI),Not specified (Industrial AI),2.0,4.0,LinkedIn,2026-07-07,"Role: GenAI Engineer for AgenticAI, combining AgenticAI with Industrial AI for manufacturing challenges. Own end-to-end lifecycle of GenAI applications from problem definition/experimentation to production deployment/monitoring.
 A Day In Your Life: Build intelligent systems combining time-series modeling, signal processing, GenAI (LLMs, embeddings, agents, orchestration, retrieval pipelines); design/implement LLM-powered workflows (RAG, tool usage, multi-agent orchestration, evaluation frameworks); develop AgenticAI applications integrating sensor time-series data, unstructured text, ML outputs; drive technical decision-making on architecture/tooling/deployment; build/maintain backend services in Python (REST/gRPC APIs); monitor deployed systems for performance/drift/reliability/cost.
 What You Bring: Bachelor's in CS/IT/Engineering (Master's a plus); 2-4 years across Data Science/ML/AI Engineering/GenAI; hands-on GenAI/AgenticAI in production; LangChain, CrewAI, AutoGen, LangGraph; LLM workflows (prompting, embeddings, RAG, tool calling, evaluation); HITL and LLM-as-judge evaluation methods; strong Python for model development and backend services.
 Nice to Have: industrial systems/IoT/digital twins; time-series/anomaly detection/predictive maintenance; Kafka/streaming; Databricks/BigQuery/Snowflake."
-18,Nians,Generative AI Engineer,Not specified,1,,LinkedIn,2026-07-07,"Looking for AI Engineer with strong hands-on experience in LLMs and modern AI tooling, proficient with Claude, ChatGPT, AI coding agents like Codex, building intelligent agents/prompt systems/AI-powered automation workflows.
+18,Nians,Generative AI Engineer,Not specified,1.0,,LinkedIn,2026-07-07,"Looking for AI Engineer with strong hands-on experience in LLMs and modern AI tooling, proficient with Claude, ChatGPT, AI coding agents like Codex, building intelligent agents/prompt systems/AI-powered automation workflows.
 Roles & Responsibilities: Design/build AI agents and multi-step workflows using LLMs (Claude, ChatGPT, or similar); develop/optimize advanced prompts for reasoning/coding/task automation; build/maintain agentic systems (tool-using AI, function calling, workflow automation); work with Claude for reasoning-heavy tasks/structured outputs; work with ChatGPT/OpenAI/Codex for code generation/debugging; create reusable prompt frameworks/templates/libraries; integrate LLM APIs into applications (Python/Node.js/REST); design RAG systems where needed; build/test AI-driven coding workflows/automation pipelines.
 Requirements: 1+ years relevant experience preferred; prompt engineering knowledge; experience building/using AI agents; familiarity with AI coding tools (Codex/Copilot/Claude Code); task-based AI agents, multi-step reasoning pipelines, tool-using LLM systems; agent frameworks (LangChain, LangGraph, CrewAI); Python and/or JavaScript/TypeScript; embeddings/vector databases.
 Job Openings: 8."
@@ -77,3 +77,68 @@ Role Purpose: Embedded AI delivery (copilots, assistants, agentic workflows, ret
 Key Responsibilities: Design/implement AI features using RAG, tool calling, agents, multi-step workflows; integrate AI capabilities into existing services via APIs; move AI use cases through lifecycle (intake, risk classification, approvals, build, test, deployment, operation); develop evaluation plans/test harnesses (offline tests, regression checks, retrieval scoring); instrument AI services for tracing/logging/cost signals/feedback loops; contribute reusable templates/CI/CD hooks/reference implementations; use AI-assisted engineering tools (Claude Code) as default workflow.
 Skills & Qualifications: Bachelor's/Master's CS/AI/Software Engineering; strong Python software engineering (clean code, testing, refactoring); hands-on LLM-enabled systems beyond prototypes; practical RAG and agents/tool calling/multi-step orchestration; strong Git/CI/CD; Agile/Scrum/Kanban experience; documentation skills; experience with AWS or Azure production engineering.
 Preferred: Claude Code / agentic AI-assisted coding daily use; Amazon Bedrock AgentCore/Knowledge Bases; Microsoft Foundry; LangChain/Semantic Kernel/PydanticAI; vector stores/embedding strategies; observability/distributed tracing."
+21,Learneo,Applied AI Engineer II,India - Remote,,,Manual entry,2026-07-10,"About Learneo
+Learneo is a platform of builder-driven businesses, including Course Hero, CliffsNotes, LitCharts, Quillbot, Symbolab, and Scribbr, all united around a shared mission of supercharging productivity and learning for everyone. We attract and scale high growth businesses built and run by visionary entrepreneurs. Each team innovates independently but has a unique opportunity to collaborate, experiment, and grow together, and they are supported by centralized corporate operations functions, including HR, Finance and Legal.
+
+About Quillbot
+Quillbot was founded in 2017 with a mission to help students and professionals—especially those learning English—strengthen their writing. Today, we help over 56 million people around the world create great things. Whether you're writing, designing, coding, or collaborating, Quillbot is a place where anyone can create at the speed of thought. Our AI-powered tools help you think clearly, communicate effectively, and create beautifully—across every platform, in any format, at any skill level. If you're passionate about using technology to make the path from inspiration to execution more accessible, intentional, and relevant, come join us.
+
+Role Overview
+We're looking for an Applied AI Engineer to join our MLOps team and take ownership of the infrastructure that keeps our machine learning models running reliably in production. This role is essential to maintaining the uptime and performance of our ML systems as usage scales. You'll work closely with data scientists, researchers, and software engineers to bridge the gap between experimentation and production—turning research artifacts into robust, monitored, and continuously improving services. This is a hands-on opportunity to shape our on-premises MLOps practices and improve engineering across the ML stack.
+
+Responsibilities
+
+Collaborate with experienced data scientists and software engineers to gain insights into building scalable and efficient data pipelines, model training, and deployment systems. 
+Troubleshoot issues in the entire machine learning infrastructure, from Linux, Docker, and Kubernetes up to the highest levels of our ML stack. Resolve issues, improve system performance, and make our stack the best in the industry. 
+Assist in the design and development of on-premises MLOps solutions to support the delivery of machine learning models, and a seamless handover between research and productionization of ML artifacts 
+Drive and uphold high engineering standards, bringing consistency to codebases encountered and ensuring software is adequately reviewed, tested, and integrated. 
+Optimize existing models for better performance and throughput. 
+Incorporate ML model training, validation, and evaluation settings in addition to traditional coding tests     like unit and integration testing. 
+Build and maintain tools for deployment, monitoring, and operations. - Continuously refine and enhance CI/CD workflows to support the evolving needs of the machine learning infrastructure. 
+Ideal Candidate 
+
+3+ years of experience in MLOps or full stack Machine Learning - Good programming skills in a modern programming language (Python, Scientific Python Stack, Cuda). 
+Understanding of the MLOps life cycle and experience with MLOps workflows.
+Experience with tools & practices of the trade, such as Kubernetes, GCP/AWS/Azure, CI/CD, common ML frameworks, and data management.
+A keen interest in machine learning engineering and a willingness to explore how it can be scaled effectively. 
+Strong desire to learn and good communication skills, with an enthusiasm for collaborative problem-solving.
+Benefits & Perks
+
+Competitive salary and annual bonus
+Medical coverage
+Life and accidental insurance
+Vacation & leaves of absence (menstrual, flexible, special, and more!)
+Developmental opportunities through education & developmental reimbursements & professional workshops
+Maternity & parental leave
+Hybrid & remote model with flexible working hours
+On-site & remote company events throughout the year
+Tech & WFH stipends & new hire allowances
+Employee referral program
+Premium access to Quillbot
+*Benefits and benefit amounts differ by region. A comprehensive list applicable to your region will be provided in your interview process. 
+
+This role is eligible for hire in India.
+
+ 
+
+We are a virtual-first company with employees across the United States, Canada, India, Germany, and the Netherlands. Our compensation approach is market-based and varies by location while ensuring fairness, consistency, and transparency.
+
+The base pay for this role is determined by several factors, including:
+
+Relevant professional experience
+Skills and expertise
+Scope and responsibilities of the role
+Internal equity considerations 
+In addition to base salary, total compensation may include bonus, equity, and benefits. Eligibility depends on role, level, and location.
+
+We are committed to equal pay for equal work, and all compensation decisions are made using consistent, gender-neutral criteria in alignment with pay transparency requirements.
+
+Research shows that candidates from underrepresented backgrounds often don't apply for roles if they don't meet all the criteria. We strongly encourage you to apply if you're interested: we'd love to learn how you can amplify our team with your unique experience!
+
+#Learneo
+#LI-Remote
+#LI-SG1
+
+Equal ​Employment Opportunity Statement ​(EEO)
+
+We are an equal opportunity employer and value diversity and ​inclusion within our company.  ​We will consider all qualified applicants without regard to race, religion, color, national origin, sex, gender ​identity, gender expression, sexual orientation, age, marital status, ​veteran status, or ​ability status. We will ensure that individuals who are differently abled are provided reasonable accommodation to participate in the job application or interview process, to perform essential job functions, and to receive other benefits and privileges of employment as provided to other applicants or employees. Please contact us to request accommodation."

@@ -16,8 +16,19 @@
   ],
 
   "learning_in_progress_skills": [
-    "Advanced Agentic AI Orchestration", "Fine-tuning LLMs", "Vector DB Scaling at Production Volume"
+    "Advanced Agentic AI Orchestration", "Fine-tuning LLMs", "Vector DB Scaling at Production Volume",
+    "LangGraph", "CrewAI", "AutoGen", "Semantic Kernel", "Model Context Protocol (MCP)",
+    "Agent-to-Agent (A2A) Workflows", "Multi-Agent Systems", "Tool/Function Calling",
+    "Pinecone", "Milvus", "Qdrant", "Weaviate", "Chroma", "pgvector",
+    "MLOps", "LLMOps", "MLflow", "Kubeflow", "Airflow", "Model/Prompt Versioning",
+    "Model Drift Detection", "Hallucination Detection", "LLM Guardrails", "Prompt Injection Prevention",
+    "Evaluation Frameworks", "RAGAS", "TruLens", "LLM-as-Judge Evaluation",
+    "Kubernetes", "gRPC APIs", "Statistics", "Probability", "Feature Engineering",
+    "Computer Vision", "YOLO", "Deep Learning", "XGBoost", "Model Deployment at Scale",
+    "AI Agent Memory Systems", "Human-in-the-Loop (HITL) Design"
   ],
+
+  "_note_on_learning_expansion": "This expanded list of learning_in_progress_skills was added by scanning what actually shows up repeatedly across the 19 real job postings' Gemini-extracted requirements. These are industry-common skills for ML/AI/GenAI Engineer roles, NOT things Harry has hands-on production experience with - they exist here so the fit-score and gap-advice features can surface them as concrete, realistic learning targets rather than missing them entirely. Move any of these to core_strength_skills only once genuinely used in a real project.",
 
   "_note_on_learning_skills": "Harry confirmed he worked on the same projects/platform (DELight) as the colleague whose resume skills were referenced, so those tools were moved into core_strength_skills. Recommend Harry stays ready to speak concretely to specific metrics/systems from that reference if they come up in an interview, since those are what get probed at that stage.",
 
@@ -28,7 +39,46 @@
     "GenAI", "LLM", "RAG", "Prompt Engineering", "NLP", "Vector Databases",
     "FAISS", "LangChain", "Hugging Face Transformers", "Semantic Search",
     "Document Intelligence", "PySpark", "Parquet", "ETL Pipelines", "Databricks",
-    "PyTorch", "TensorFlow", "Scikit-learn"
+    "PyTorch", "TensorFlow", "Scikit-learn",
+    "LangGraph", "CrewAI", "AutoGen", "Semantic Kernel", "Model Context Protocol (MCP)",
+    "Agent-to-Agent (A2A) Workflows", "Multi-Agent Systems", "Tool/Function Calling",
+    "Pinecone", "Milvus", "Qdrant", "Weaviate", "Chroma", "pgvector",
+    "MLOps", "LLMOps", "MLflow", "Kubeflow", "Airflow",
+    "Evaluation Frameworks", "Kubernetes", "gRPC APIs", "Statistics", "Probability",
+    "Feature Engineering", "Computer Vision", "YOLO", "Deep Learning", "XGBoost"
+  ],
+
+  "notable_projects": [
+    {
+      "title": "OD (Outlier Detection) layer integration",
+      "summary": "Integrated a standalone outlier detection service into delight-services with full JWT auth, Casbin RBAC, audit logging, and rate limiting; live-tested all endpoints on production.",
+      "skills_demonstrated": ["Security/Auth (JWT, RBAC)", "System Integration", "Production Deployment", "API Design"]
+    },
+    {
+      "title": "Temporal workflow engine integration",
+      "summary": "Implemented Temporal workflow integration, diagnosing and fixing a TLS connection issue causing h2 FRAME_SIZE_ERROR through an AWS ALB.",
+      "skills_demonstrated": ["Temporal", "Distributed Systems Debugging", "Networking/TLS", "AWS"]
+    },
+    {
+      "title": "MongoDB Data Anomaly Report API",
+      "summary": "Built a 4-endpoint FastAPI service deriving anomaly findings at query time from profiler tables, covering 13 acceptance criteria.",
+      "skills_demonstrated": ["FastAPI", "MongoDB", "API Design", "Requirements-driven Development"]
+    },
+    {
+      "title": "Dagster concurrent execution bug fix",
+      "summary": "Debugged a concurrent asset execution status bug in the Dagster orchestration layer involving run_id pinning and terminal-state promotion logic.",
+      "skills_demonstrated": ["Dagster", "Concurrency Debugging", "Data Pipeline Orchestration"]
+    },
+    {
+      "title": "Poetry to pip migration",
+      "summary": "Migrated delight-services from Poetry to pip; diagnosed a production deployment failure caused by private wheel git URLs baked into wheel METADATA failing on EC2 due to missing credentials.",
+      "skills_demonstrated": ["Dependency Management", "CI/CD", "Production Debugging", "AWS EC2"]
+    },
+    {
+      "title": "File upload-to-S3 ingestion API",
+      "summary": "Built a file upload-to-S3 API for data ingestion as part of the DELight platform's ingestion layer.",
+      "skills_demonstrated": ["AWS S3", "API Design", "Data Ingestion"]
+    }
   ],
 
   "target_titles": [

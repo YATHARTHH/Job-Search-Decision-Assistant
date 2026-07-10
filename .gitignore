@@ -18,6 +18,7 @@ ENV/
 
 # Large generated data files
 data/job_postings_synthetic_large.csv
+data/embeddings.json
 
 # Jupyter
 .ipynb_checkpoints/
