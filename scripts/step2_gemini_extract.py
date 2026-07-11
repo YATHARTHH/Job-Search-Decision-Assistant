@@ -36,10 +36,13 @@ import time
 import pandas as pd
 from google import genai
 from google.genai import errors as genai_errors
+from dotenv import load_dotenv
 import httpx
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+
+load_dotenv(os.path.join(BASE_DIR, "..", ".env"))
 
 API_KEY = os.environ.get("GEMINI_API_KEY")
 if not API_KEY:
