@@ -28,9 +28,12 @@ import time
 import ast
 import pandas as pd
 from google import genai
+from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+
+load_dotenv(os.path.join(BASE_DIR, "..", ".env"))
 
 API_KEY = os.environ.get("GEMINI_API_KEY")
 if not API_KEY:
