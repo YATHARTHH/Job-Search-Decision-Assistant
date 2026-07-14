@@ -1,6 +1,6 @@
 {
   "name": "Harry",
-  "current_role": "Backend Engineer",
+  "current_role": "ML/AI Engineer",
   "current_company": "Ascentt Systems",
   "years_experience": 3.5,
   "target_experience_band": "3-4 years",
@@ -89,7 +89,7 @@
     "Machine Learning Engineer"
   ],
   "preferred_locations": ["India", "Remote", "Hybrid"],
-  "notes": "3.5 YOE backend engineer transitioning toward GenAI/ML roles; strong in production backend/pipeline engineering, actively building RAG/LLM/vector DB/document-intelligence skills. Some skills in learning_in_progress_skills were added from a colleague's resume as aspirational/exposure skills, not proven experience.",
+  "notes": "3.5 YOE ML/AI engineer with strong production backend/pipeline engineering foundations, actively deepening RAG/LLM/vector DB/document-intelligence skills. Some skills in learning_in_progress_skills were added from a colleague's resume as aspirational/exposure skills, not proven experience.",
 
   "scoring_weights": {
     "core_skill_weight": 0.5,
