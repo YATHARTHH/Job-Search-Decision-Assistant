@@ -2,7 +2,7 @@
 
 An AI-powered decision-intelligence tool that ranks real job postings against a
 candidate's profile, flags posting anomalies using Gemini, and forecasts application
-outcomes. Built for [Hackathon Name] under the "AI for Better Living / Decision
+outcomes. Built for Hackathon under the "AI for Better Living / Decision
 Intelligence" track.
 
 ## The Problem
