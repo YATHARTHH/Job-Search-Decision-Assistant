@@ -101,7 +101,7 @@ jobs:
         run: pip-audit --desc || echo "Audit complete with advisories."
 
       - name: Run Hadolint Dockerfile Linter
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.5.0
         with:
           dockerfile: Dockerfile
           ignore: DL3008,DL3013
