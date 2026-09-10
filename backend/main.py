@@ -22,13 +22,14 @@ ENDPOINTS:
                       returns its fit score (NEEDS your GEMINI_API_KEY)
 """
 
-import os
 import ast
 import json
+import os
+
 import pandas as pd
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
@@ -41,6 +42,7 @@ app = FastAPI(title="Job Search Decision Assistant API")
 
 # ---------- Shared helpers (same logic as step5_fit_score.py) ----------
 
+
 def safe_list_parse(val):
     if pd.isna(val) or val in ("", "[]"):
         return []
@@ -50,12 +52,14 @@ def safe_list_parse(val):
     except (ValueError, SyntaxError):
         return []
 
+
 def skill_match_score(job_skills, profile_skills):
     if not job_skills:
         return 0.0
     job_text = " ".join(job_skills).lower()
     hits = sum(1 for s in profile_skills if s.lower() in job_text)
     return hits / len(profile_skills) if profile_skills else 0.0
+
 
 def find_skill_gaps(job_skills, profile_skills):
     """Returns the job's required skills that DON'T appear anywhere in the profile's
@@ -73,13 +77,11 @@ def find_skill_gaps(job_skills, profile_skills):
             continue
         # Covered if this job skill contains a profile skill, or a profile skill
         # contains this job skill (handles "Python" vs "Python programming" either way)
-        covered = any(
-            p in skill_lower or skill_lower in p
-            for p in profile_skills_lower
-        )
+        covered = any(p in skill_lower or skill_lower in p for p in profile_skills_lower)
         if not covered:
             gaps.append(skill)
     return gaps
+
 
 def experience_fit(min_exp, max_exp, my_years):
     if pd.isna(min_exp):
@@ -91,6 +93,7 @@ def experience_fit(min_exp, max_exp, my_years):
     gap = min(abs(my_years - lo), abs(my_years - hi))
     return max(0.0, 1 - gap / 3)
 
+
 def get_anomaly_notes(row):
     notes = []
     if row.get("error") == "could_not_parse":
@@ -98,9 +101,12 @@ def get_anomaly_notes(row):
         return notes
     clarity = row.get("requirements_clarity", "")
     if clarity in ("vague", "missing"):
-        notes.append(f"REQUIREMENTS_{clarity.upper()}: Gemini flagged this posting's requirements as {clarity}")
+        notes.append(
+            f"REQUIREMENTS_{clarity.upper()}: Gemini flagged this posting's requirements as {clarity}"
+        )
     notes.extend(safe_list_parse(row.get("red_flags", "[]")))
     return notes
+
 
 def compute_ranked_jobs(core_weight=None, learning_weight=None, exp_weight=None):
     structured = pd.read_csv(os.path.join(DATA_DIR, "jobs_structured.csv"))
@@ -115,19 +121,32 @@ def compute_ranked_jobs(core_weight=None, learning_weight=None, exp_weight=None)
     # Use provided weights if given (e.g. from Streamlit sliders), else fall back
     # to profile.json's configured defaults, else the original hardcoded values.
     default_weights = profile.get("scoring_weights", {})
-    w_core = core_weight if core_weight is not None else default_weights.get("core_skill_weight", 0.5)
-    w_learn = learning_weight if learning_weight is not None else default_weights.get("learning_skill_weight", 0.25)
-    w_exp = exp_weight if exp_weight is not None else default_weights.get("experience_fit_weight", 0.25)
+    w_core = (
+        core_weight if core_weight is not None else default_weights.get("core_skill_weight", 0.5)
+    )
+    w_learn = (
+        learning_weight
+        if learning_weight is not None
+        else default_weights.get("learning_skill_weight", 0.25)
+    )
+    w_exp = (
+        exp_weight if exp_weight is not None else default_weights.get("experience_fit_weight", 0.25)
+    )
     weight_sum = w_core + w_learn + w_exp
     if weight_sum > 0:
         w_core, w_learn, w_exp = w_core / weight_sum, w_learn / weight_sum, w_exp / weight_sum
 
     merged = structured.merge(
         original[["job_id", "min_exp_years", "max_exp_years"]],
-        on="job_id", suffixes=("_gemini", "_original")
+        on="job_id",
+        suffixes=("_gemini", "_original"),
     )
-    merged["min_exp_years"] = merged["min_exp_years_gemini"].fillna(merged["min_exp_years_original"])
-    merged["max_exp_years"] = merged["max_exp_years_gemini"].fillna(merged["max_exp_years_original"])
+    merged["min_exp_years"] = merged["min_exp_years_gemini"].fillna(
+        merged["min_exp_years_original"]
+    )
+    merged["max_exp_years"] = merged["max_exp_years_gemini"].fillna(
+        merged["max_exp_years_original"]
+    )
 
     rows = []
     for _, job in merged.iterrows():
@@ -135,20 +154,24 @@ def compute_ranked_jobs(core_weight=None, learning_weight=None, exp_weight=None)
         core_score = skill_match_score(job_skills, core_skills)
         learn_score = skill_match_score(job_skills, learning_skills)
         exp_score = experience_fit(job["min_exp_years"], job["max_exp_years"], my_years)
-        fit_score = round((w_core * core_score + w_learn * learn_score + w_exp * exp_score) * 100, 1)
+        fit_score = round(
+            (w_core * core_score + w_learn * learn_score + w_exp * exp_score) * 100, 1
+        )
         anomalies = get_anomaly_notes(job)
         skill_gaps = find_skill_gaps(job_skills, core_skills + learning_skills)
 
-        rows.append({
-            "job_id": int(job["job_id"]),
-            "company": job["company"],
-            "title": job["title"],
-            "min_exp": None if pd.isna(job["min_exp_years"]) else job["min_exp_years"],
-            "max_exp": None if pd.isna(job["max_exp_years"]) else job["max_exp_years"],
-            "fit_score": fit_score,
-            "anomalies": anomalies,
-            "skill_gaps": skill_gaps,
-        })
+        rows.append(
+            {
+                "job_id": int(job["job_id"]),
+                "company": job["company"],
+                "title": job["title"],
+                "min_exp": None if pd.isna(job["min_exp_years"]) else job["min_exp_years"],
+                "max_exp": None if pd.isna(job["max_exp_years"]) else job["max_exp_years"],
+                "fit_score": fit_score,
+                "anomalies": anomalies,
+                "skill_gaps": skill_gaps,
+            }
+        )
 
     return sorted(rows, key=lambda r: r["fit_score"], reverse=True)
 
@@ -168,7 +191,11 @@ def compute_forecast(n_future=10):
     recent = log.iloc[midpoint:]
     early_rate = (early["status"] == "callback").sum() / len(early) if len(early) else 0
     recent_rate = (recent["status"] == "callback").sum() / len(recent) if len(recent) else 0
-    trend = "improving" if recent_rate > early_rate else ("declining" if recent_rate < early_rate else "flat")
+    trend = (
+        "improving"
+        if recent_rate > early_rate
+        else ("declining" if recent_rate < early_rate else "flat")
+    )
 
     responded = log.dropna(subset=["response_date"]).copy()
     avg_lag = None
@@ -194,8 +221,13 @@ def compute_forecast(n_future=10):
 
 # ---------- Endpoints ----------
 
+
 @app.get("/score")
-def get_score(core_weight: float = None, learning_weight: float = None, exp_weight: float = None):
+def get_score(
+    core_weight: float | None = None,
+    learning_weight: float | None = None,
+    exp_weight: float | None = None,
+):
     """Ranked job list with fit scores and anomaly flags.
     Optional query params let you override the default weights from profile.json,
     e.g. /score?core_weight=0.7&learning_weight=0.1&exp_weight=0.2"""
@@ -236,7 +268,7 @@ def ask_question(request: AskRequest):
     except ImportError:
         raise HTTPException(
             status_code=501,
-            detail="Missing packages. Run: pip install google-genai google-cloud-bigquery"
+            detail="Missing packages. Run: pip install google-genai google-cloud-bigquery",
         )
 
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -271,17 +303,19 @@ Write ONE SQL query (no explanation, no markdown fences) that answers: {request.
                     "Gemini free-tier daily quota (20 requests/day for this model) is used up. "
                     "This resets the next day - try again tomorrow, or switch to a different "
                     "Gemini model (e.g. gemini-2.5-flash-lite) which has a separate quota."
-                )
+                ),
             )
         raise HTTPException(status_code=500, detail=f"Gemini API error: {error_str}")
 
-    sql = response.text.strip().replace("```sql", "").replace("```", "").strip()
+    sql = (response.text or "").strip().replace("```sql", "").replace("```", "").strip()
 
     bq_client = bigquery.Client(project=project_id)
     try:
         result_df = bq_client.query(sql).to_dataframe()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"BigQuery error: {e}\nGenerated SQL was: {sql}")
+        raise HTTPException(
+            status_code=500, detail=f"BigQuery error: {e}\nGenerated SQL was: {sql}"
+        )
 
     return {
         "question": request.question,
@@ -333,8 +367,7 @@ def add_job(request: AddJobRequest):
         from google import genai
     except ImportError:
         raise HTTPException(
-            status_code=501,
-            detail="Missing package. Run: pip install google-genai"
+            status_code=501, detail="Missing package. Run: pip install google-genai"
         )
 
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -349,9 +382,14 @@ def add_job(request: AddJobRequest):
 
     # 1. Append to job_postings.csv
     new_row = {
-        "job_id": new_job_id, "company": request.company, "title": request.title,
-        "location": request.location, "min_exp_years": None, "max_exp_years": None,
-        "source": request.source, "date_scraped": pd.Timestamp.now().strftime("%Y-%m-%d"),
+        "job_id": new_job_id,
+        "company": request.company,
+        "title": request.title,
+        "location": request.location,
+        "min_exp_years": None,
+        "max_exp_years": None,
+        "source": request.source,
+        "date_scraped": pd.Timestamp.now().strftime("%Y-%m-%d"),
         "jd_text": request.jd_text,
     }
     postings = pd.concat([postings, pd.DataFrame([new_row])], ignore_index=True)
@@ -361,10 +399,9 @@ def add_job(request: AddJobRequest):
     client = genai.Client(api_key=api_key)
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=EXTRACTION_PROMPT.format(jd_text=request.jd_text)
+            model="gemini-2.5-flash", contents=EXTRACTION_PROMPT.format(jd_text=request.jd_text)
         )
-        raw = response.text.strip().replace("```json", "").replace("```", "").strip()
+        raw = (response.text or "").strip().replace("```json", "").replace("```", "").strip()
         extracted = json.loads(raw)
     except json.JSONDecodeError:
         extracted = {"error": "could_not_parse", "raw_response": raw}
@@ -374,7 +411,7 @@ def add_job(request: AddJobRequest):
             raise HTTPException(
                 status_code=429,
                 detail="Gemini free-tier daily quota used up. Job was added to job_postings.csv "
-                       "but NOT yet extracted - re-run extraction later with step2_gemini_extract.py."
+                "but NOT yet extracted - re-run extraction later with step2_gemini_extract.py.",
             )
         raise HTTPException(status_code=500, detail=f"Gemini API error: {error_str}")
 
@@ -383,9 +420,21 @@ def add_job(request: AddJobRequest):
     extracted["title"] = request.title
 
     # 3. Append to jobs_structured.csv
-    columns = ["job_id", "company", "title", "min_exp_years", "max_exp_years",
-               "seniority", "required_skills", "tech_stack", "role_focus",
-               "requirements_clarity", "red_flags", "error", "raw_response"]
+    columns = [
+        "job_id",
+        "company",
+        "title",
+        "min_exp_years",
+        "max_exp_years",
+        "seniority",
+        "required_skills",
+        "tech_stack",
+        "role_focus",
+        "requirements_clarity",
+        "red_flags",
+        "error",
+        "raw_response",
+    ]
     row_df = pd.DataFrame([extracted]).reindex(columns=columns)
     write_header = not os.path.exists(structured_path)
     row_df.to_csv(structured_path, mode="a", header=write_header, index=False)
@@ -419,7 +468,9 @@ def skill_gap_advice(request: GapAdviceRequest):
     try:
         from google import genai
     except ImportError:
-        raise HTTPException(status_code=501, detail="Missing package. Run: pip install google-genai")
+        raise HTTPException(
+            status_code=501, detail="Missing package. Run: pip install google-genai"
+        )
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
@@ -434,12 +485,12 @@ def skill_gap_advice(request: GapAdviceRequest):
         profile = json.load(f)
 
     prompt = f"""A candidate has this background:
-Core skills: {', '.join(profile['core_strength_skills'])}
-Currently learning: {', '.join(profile['learning_in_progress_skills'])}
+Core skills: {", ".join(profile["core_strength_skills"])}
+Currently learning: {", ".join(profile["learning_in_progress_skills"])}
 
-For the job "{job['title']}" at {job['company']}, a raw keyword-matching script
+For the job "{job["title"]}" at {job["company"]}, a raw keyword-matching script
 flagged these as potentially missing skills:
-{', '.join(job['skill_gaps']) if job['skill_gaps'] else 'none flagged'}
+{", ".join(job["skill_gaps"]) if job["skill_gaps"] else "none flagged"}
 
 Some of these may be FALSE POSITIVES - things the candidate likely already has
 under a different name or as a natural extension of their existing skills (e.g.
@@ -455,14 +506,16 @@ as missing). Return ONLY valid JSON, no markdown fences:
     client = genai.Client(api_key=api_key)
     try:
         response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
-        raw = response.text.strip().replace("```json", "").replace("```", "").strip()
+        raw = (response.text or "").strip().replace("```json", "").replace("```", "").strip()
         advice = json.loads(raw)
     except json.JSONDecodeError:
         raise HTTPException(status_code=500, detail=f"Gemini returned unparseable JSON: {raw}")
     except Exception as e:
         error_str = str(e)
         if "RESOURCE_EXHAUSTED" in error_str or "429" in error_str:
-            raise HTTPException(status_code=429, detail="Gemini free-tier daily quota used up. Try again tomorrow.")
+            raise HTTPException(
+                status_code=429, detail="Gemini free-tier daily quota used up. Try again tomorrow."
+            )
         raise HTTPException(status_code=500, detail=f"Gemini API error: {error_str}")
 
     return {
@@ -490,7 +543,9 @@ def interview_prep(request: InterviewPrepRequest):
     try:
         from google import genai
     except ImportError:
-        raise HTTPException(status_code=501, detail="Missing package. Run: pip install google-genai")
+        raise HTTPException(
+            status_code=501, detail="Missing package. Run: pip install google-genai"
+        )
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
@@ -512,18 +567,18 @@ def interview_prep(request: InterviewPrepRequest):
         for p in profile.get("notable_projects", [])
     )
 
-    prompt = f"""A candidate is preparing for an interview for "{job['title']}" at {job['company']}.
+    prompt = f"""A candidate is preparing for an interview for "{job["title"]}" at {job["company"]}.
 
-Job's required skills: {job_row.get('required_skills', 'unknown')}
-Job's tech stack: {job_row.get('tech_stack', 'unknown')}
-Job's role focus: {job_row.get('role_focus', 'unknown')}
-Job's seniority level: {job_row.get('seniority', 'unknown')}
+Job's required skills: {job_row.get("required_skills", "unknown")}
+Job's tech stack: {job_row.get("tech_stack", "unknown")}
+Job's role focus: {job_row.get("role_focus", "unknown")}
+Job's seniority level: {job_row.get("seniority", "unknown")}
 
 Candidate's real past projects:
 {projects_text}
 
-Candidate's core skills: {', '.join(profile['core_strength_skills'])}
-Skills the candidate is currently missing for this specific role: {', '.join(job['skill_gaps'][:8])}
+Candidate's core skills: {", ".join(profile["core_strength_skills"])}
+Skills the candidate is currently missing for this specific role: {", ".join(job["skill_gaps"][:8])}
 
 Generate an interview prep brief. Return ONLY valid JSON, no markdown fences:
 {{
@@ -537,14 +592,16 @@ Generate an interview prep brief. Return ONLY valid JSON, no markdown fences:
     client = genai.Client(api_key=api_key)
     try:
         response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
-        raw = response.text.strip().replace("```json", "").replace("```", "").strip()
+        raw = (response.text or "").strip().replace("```json", "").replace("```", "").strip()
         prep = json.loads(raw)
     except json.JSONDecodeError:
         raise HTTPException(status_code=500, detail=f"Gemini returned unparseable JSON: {raw}")
     except Exception as e:
         error_str = str(e)
         if "RESOURCE_EXHAUSTED" in error_str or "429" in error_str:
-            raise HTTPException(status_code=429, detail="Gemini free-tier daily quota used up. Try again tomorrow.")
+            raise HTTPException(
+                status_code=429, detail="Gemini free-tier daily quota used up. Try again tomorrow."
+            )
         raise HTTPException(status_code=500, detail=f"Gemini API error: {error_str}")
 
     return {

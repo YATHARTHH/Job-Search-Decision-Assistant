@@ -31,16 +31,19 @@ Run in Colab (GPU / cupy) - only ONE line changes:
 """
 
 import time
-import numpy as np   # <-- for Colab GPU run, change this single line to: import cupy as np
 
-N_JOBS = 1_000_000       # larger scale than the string benchmark - GPUs need volume to shine
-EMBEDDING_DIM = 384       # typical real-world sentence-embedding size
+import numpy as np  # <-- for Colab GPU run, change this single line to: import cupy as np
+
+N_JOBS = 1_000_000  # larger scale than the string benchmark - GPUs need volume to shine
+EMBEDDING_DIM = 384  # typical real-world sentence-embedding size
+
 
 def cosine_similarity(job_embeddings, profile_embedding):
     dot_products = job_embeddings @ profile_embedding
     job_norms = np.linalg.norm(job_embeddings, axis=1)
     profile_norm = np.linalg.norm(profile_embedding)
     return dot_products / (job_norms * profile_norm)
+
 
 def main():
     rng = np.random.default_rng(42) if hasattr(np.random, "default_rng") else None
@@ -65,6 +68,7 @@ def main():
 
     print(f"Top 5 similarity scores: {similarities[top5_idx]}")
     print(f"\n=== Cosine similarity across {N_JOBS:,} embeddings took {elapsed:.4f} seconds ===")
+
 
 if __name__ == "__main__":
     main()

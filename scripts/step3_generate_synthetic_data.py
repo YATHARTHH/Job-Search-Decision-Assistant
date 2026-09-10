@@ -12,6 +12,7 @@ Run locally (no GPU needed for this part):
 
 import os
 import random
+
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -30,11 +31,13 @@ FILLER_SENTENCES = [
     "This role may require occasional travel to client sites.",
 ]
 
+
 def vary_text(text, seed):
     rng = random.Random(seed)
     filler = rng.choice(FILLER_SENTENCES)
     # light variation: append a random filler sentence, occasionally shuffle case of one word
     return f"{text} {filler}"
+
 
 def main():
     real_jobs = pd.read_csv(os.path.join(DATA_DIR, "job_postings.csv"))
@@ -43,18 +46,21 @@ def main():
     rows = []
     for i in range(N_ROWS):
         base = real_jobs.iloc[i % len(real_jobs)]
-        rows.append({
-            "job_id": i + 1,
-            "company": base["company"],
-            "title": base["title"],
-            "jd_text": vary_text(base["jd_text"], seed=i),
-        })
+        rows.append(
+            {
+                "job_id": i + 1,
+                "company": base["company"],
+                "title": base["title"],
+                "jd_text": vary_text(base["jd_text"], seed=i),
+            }
+        )
 
     synthetic = pd.DataFrame(rows)
     out_path = os.path.join(DATA_DIR, "job_postings_synthetic_large.csv")
     synthetic.to_csv(out_path, index=False)
     print(f"Wrote {len(synthetic)} synthetic rows to {out_path}")
     print(f"File size: {os.path.getsize(out_path) / 1_000_000:.1f} MB")
+
 
 if __name__ == "__main__":
     main()

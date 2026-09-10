@@ -1,9 +1,15 @@
 # Job Search Decision Assistant
 
+[![CI Pipeline](https://github.com/YATHARTHH/Job-Search-Decision-Assistant/actions/workflows/ci.yml/badge.svg)](https://github.com/YATHARTHH/Job-Search-Decision-Assistant/actions/workflows/ci.yml)
+[![Release & CD](https://github.com/YATHARTHH/Job-Search-Decision-Assistant/actions/workflows/release-cd.yml/badge.svg)](https://github.com/YATHARTHH/Job-Search-Decision-Assistant/actions/workflows/release-cd.yml)
+[![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Coverage](https://img.shields.io/badge/coverage-%E2%89%A580%25-brightgreen.svg)](docs/CI_CD.md)
+
 An AI-powered decision-intelligence tool that ranks real job postings against a
 candidate's profile, flags posting anomalies using Gemini, and forecasts application
 outcomes. Built for Hackathon under the "AI for Better Living / Decision
 Intelligence" track.
+
 
 ## The Problem
 

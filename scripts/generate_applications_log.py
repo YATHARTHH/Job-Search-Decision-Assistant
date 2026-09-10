@@ -12,15 +12,17 @@ Run locally:
 
 import os
 import random
+from datetime import datetime, timedelta
+
 import numpy as np
 import pandas as pd
-from datetime import datetime, timedelta
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
 OUTPUT_DIR = os.path.join(BASE_DIR, "..", "outputs")
 
 random.seed(42)
+
 
 def main():
     ranked = pd.read_csv(os.path.join(OUTPUT_DIR, "step5_ranked_output.csv"))
@@ -59,20 +61,23 @@ def main():
             response_date = None
             status = "no_response"
 
-        rows.append({
-            "job_id": job["job_id"],
-            "company": job["company"],
-            "fit_score": job["fit_score"],
-            "applied_date": applied_date.strftime("%Y-%m-%d"),
-            "status": status,
-            "response_date": response_date.strftime("%Y-%m-%d") if response_date else "",
-        })
+        rows.append(
+            {
+                "job_id": job["job_id"],
+                "company": job["company"],
+                "fit_score": job["fit_score"],
+                "applied_date": applied_date.strftime("%Y-%m-%d"),
+                "status": status,
+                "response_date": response_date.strftime("%Y-%m-%d") if response_date else "",
+            }
+        )
 
     log = pd.DataFrame(rows).sort_values("applied_date").reset_index(drop=True)
     out_path = os.path.join(DATA_DIR, "applications_log.csv")
     log.to_csv(out_path, index=False)
     print(f"Wrote {len(log)} synthetic application records to {out_path}")
     print(log.to_string(index=False))
+
 
 if __name__ == "__main__":
     main()

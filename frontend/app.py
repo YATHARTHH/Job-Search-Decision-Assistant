@@ -14,18 +14,22 @@ Set API_BASE_URL as an environment variable if the backend runs somewhere else
 """
 
 import os
-import requests
+
 import pandas as pd
+import requests
 import streamlit as st
 
 API_BASE = os.environ.get("API_BASE_URL", "http://127.0.0.1:8000")
 
 st.set_page_config(page_title="Job Search Decision Assistant", layout="wide")
 st.title("Job Search Decision Assistant")
-st.caption("Ranks real job postings against your profile, flags posting anomalies, and forecasts your application funnel.")
+st.caption(
+    "Ranks real job postings against your profile, flags posting anomalies, and forecasts your application funnel."
+)
 
 
 # ---------- Helpers ----------
+
 
 @st.cache_data(ttl=15)
 def fetch_scores(core_weight=None, learning_weight=None, exp_weight=None):
@@ -43,6 +47,7 @@ def fetch_scores(core_weight=None, learning_weight=None, exp_weight=None):
     except Exception as e:
         return None, str(e)
 
+
 @st.cache_data(ttl=15)
 def fetch_forecast(n=10):
     try:
@@ -51,6 +56,7 @@ def fetch_forecast(n=10):
         return r.json(), None
     except Exception as e:
         return None, str(e)
+
 
 def ask_question(question):
     try:
@@ -62,6 +68,7 @@ def ask_question(question):
         return None, detail
     except Exception as e:
         return None, str(e)
+
 
 def submit_new_job(company, title, jd_text, location):
     try:
@@ -78,6 +85,7 @@ def submit_new_job(company, title, jd_text, location):
     except Exception as e:
         return None, str(e)
 
+
 def fetch_gap_advice(job_id):
     try:
         r = requests.post(f"{API_BASE}/skill_gap_advice", json={"job_id": job_id}, timeout=30)
@@ -88,6 +96,7 @@ def fetch_gap_advice(job_id):
         return None, detail
     except Exception as e:
         return None, str(e)
+
 
 def fetch_interview_prep(job_id):
     try:
@@ -118,7 +127,9 @@ with tab1:
         st.subheader("Jobs ranked by fit score")
 
         with st.expander("Tune scoring weights"):
-            st.caption("Adjust how much each factor matters. These are normalized automatically, so they don't need to add up to 1.")
+            st.caption(
+                "Adjust how much each factor matters. These are normalized automatically, so they don't need to add up to 1."
+            )
             col_a, col_b, col_c = st.columns(3)
             core_w = col_a.slider("Core skill match", 0.0, 1.0, 0.5, 0.05)
             learn_w = col_b.slider("Learning skill match", 0.0, 1.0, 0.25, 0.05)
@@ -126,25 +137,38 @@ with tab1:
 
         jobs, err = fetch_scores(core_w, learn_w, exp_w)
         if err:
-            st.error(f"Could not load jobs: {err}\n\nIs the FastAPI backend running? (`uvicorn backend.main:app --reload`)")
+            st.error(
+                f"Could not load jobs: {err}\n\nIs the FastAPI backend running? (`uvicorn backend.main:app --reload`)"
+            )
         else:
             df = pd.DataFrame(jobs)
             df["anomalies"] = df["anomalies"].apply(lambda a: "; ".join(a) if a else "")
-            df = df.rename(columns={
-                "company": "Company", "title": "Title", "min_exp": "Min Exp",
-                "max_exp": "Max Exp", "fit_score": "Fit Score", "anomalies": "Anomalies Flagged"
-            })
+            df = df.rename(
+                columns={
+                    "company": "Company",
+                    "title": "Title",
+                    "min_exp": "Min Exp",
+                    "max_exp": "Max Exp",
+                    "fit_score": "Fit Score",
+                    "anomalies": "Anomalies Flagged",
+                }
+            )
             st.dataframe(
                 df[["Company", "Title", "Min Exp", "Max Exp", "Fit Score", "Anomalies Flagged"]],
-                use_container_width=True, hide_index=True
+                use_container_width=True,
+                hide_index=True,
             )
             st.caption(f"Showing all {len(df)} jobs, ranked highest fit first.")
 
             st.divider()
             st.subheader("Skill gap advice")
-            st.caption("Pick a job to see which skills are genuinely worth learning for it - Gemini filters out near-miss false positives from the raw keyword comparison.")
+            st.caption(
+                "Pick a job to see which skills are genuinely worth learning for it - Gemini filters out near-miss false positives from the raw keyword comparison."
+            )
             job_options = {f"{j['company']} - {j['title']}": j["job_id"] for j in jobs}
-            selected_label = st.selectbox("Job", options=list(job_options.keys()), key="gap_job_select")
+            selected_label = st.selectbox(
+                "Job", options=list(job_options.keys()), key="gap_job_select"
+            )
             selected_job_id = job_options[selected_label]
 
             if st.session_state.get("gap_last_job_id") != selected_job_id:
@@ -189,24 +213,34 @@ with tab2:
             col4.metric("Trend", forecast["trend"].capitalize())
 
             st.divider()
-            trend_df = pd.DataFrame({
-                "Period": ["Early", "Recent"],
-                "Callback Rate %": [forecast["early_period_rate_pct"], forecast["recent_period_rate_pct"]],
-            })
+            trend_df = pd.DataFrame(
+                {
+                    "Period": ["Early", "Recent"],
+                    "Callback Rate %": [
+                        forecast["early_period_rate_pct"],
+                        forecast["recent_period_rate_pct"],
+                    ],
+                }
+            )
             st.bar_chart(trend_df.set_index("Period"))
 
             st.info(
                 f"At your current callback rate, applying to {forecast['forecast_next_n']} more "
                 f"similar-quality jobs should yield approximately **{forecast['expected_callbacks_next_n']} more callbacks**."
             )
-            st.caption("Note: application history is currently synthetic/illustrative data, not a real logged history.")
+            st.caption(
+                "Note: application history is currently synthetic/illustrative data, not a real logged history."
+            )
 
 
 with tab3:
     if tab3.open:
         st.subheader("Ask a question about the job postings")
         st.caption("Powered by Gemini, which writes SQL against your BigQuery tables in real time.")
-        question = st.text_input("Your question", placeholder="e.g. Which companies have inconsistent experience requirements?")
+        question = st.text_input(
+            "Your question",
+            placeholder="e.g. Which companies have inconsistent experience requirements?",
+        )
         if st.button("Ask") and question:
             with st.spinner("Asking Gemini..."):
                 result, err = ask_question(question)
@@ -217,7 +251,9 @@ with tab3:
                 with st.expander("Generated SQL"):
                     st.code(result["generated_sql"], language="sql")
                 if result["result"]:
-                    st.dataframe(pd.DataFrame(result["result"]), use_container_width=True, hide_index=True)
+                    st.dataframe(
+                        pd.DataFrame(result["result"]), use_container_width=True, hide_index=True
+                    )
                 else:
                     st.write("No results returned.")
 
@@ -225,21 +261,28 @@ with tab3:
 with tab4:
     if tab4.open:
         st.subheader("Add a new job posting")
-        st.caption("Paste a job description below. Gemini will extract structured data and score it against your profile automatically.")
+        st.caption(
+            "Paste a job description below. Gemini will extract structured data and score it against your profile automatically."
+        )
 
         with st.form("add_job_form"):
             new_company = st.text_input("Company")
             new_title = st.text_input("Job Title")
             new_location = st.text_input("Location", value="Not specified")
-            new_jd_text = st.text_area("Full Job Description Text", height=250,
-                                         placeholder="Paste the complete job description here...")
+            new_jd_text = st.text_area(
+                "Full Job Description Text",
+                height=250,
+                placeholder="Paste the complete job description here...",
+            )
             submitted = st.form_submit_button("Add Job & Score It")
 
         if submitted:
             if not new_company or not new_title or not new_jd_text:
                 st.warning("Company, Job Title, and Job Description are all required.")
             else:
-                with st.spinner("Extracting structured data with Gemini and computing fit score..."):
+                with st.spinner(
+                    "Extracting structured data with Gemini and computing fit score..."
+                ):
                     result, err = submit_new_job(new_company, new_title, new_jd_text, new_location)
                 if err:
                     st.error(err)
@@ -249,25 +292,33 @@ with tab4:
                     if job_result:
                         col1, col2 = st.columns(2)
                         col1.metric("Fit Score", job_result["fit_score"])
-                        col2.metric("Experience Range", f"{job_result['min_exp']} - {job_result['max_exp']}")
+                        col2.metric(
+                            "Experience Range", f"{job_result['min_exp']} - {job_result['max_exp']}"
+                        )
                         if job_result["anomalies"]:
                             st.warning("Anomalies flagged: " + "; ".join(job_result["anomalies"]))
                         else:
                             st.info("No anomalies flagged.")
-                    st.caption("Switch to the Ranked Jobs tab to see it in context with everything else.")
+                    st.caption(
+                        "Switch to the Ranked Jobs tab to see it in context with everything else."
+                    )
 
 
 with tab5:
     if tab5.open:
         st.subheader("Interview prep, on demand")
-        st.caption("Pick any job and generate a prep brief - likely questions, real project talking points, and a fit pitch. Works whenever you want, not tied to application status.")
+        st.caption(
+            "Pick any job and generate a prep brief - likely questions, real project talking points, and a fit pitch. Works whenever you want, not tied to application status."
+        )
 
         jobs, err = fetch_scores()
         if err:
             st.error(f"Could not load jobs: {err}")
         else:
             job_options = {f"{j['company']} - {j['title']}": j["job_id"] for j in jobs}
-            selected_label = st.selectbox("Job", options=list(job_options.keys()), key="prep_job_select")
+            selected_label = st.selectbox(
+                "Job", options=list(job_options.keys()), key="prep_job_select"
+            )
             selected_job_id = job_options[selected_label]
 
             # Clear any previously-shown result the moment the job selection changes,

@@ -12,10 +12,11 @@ Run locally (after running step_embeddings_generate.py at least once):
     python3 scripts/step5_semantic_fit_score.py
 """
 
-import os
-import json
 import ast
+import json
 import math
+import os
+
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -68,7 +69,9 @@ def get_anomaly_notes(row):
         return notes
     clarity = row.get("requirements_clarity", "")
     if clarity in ("vague", "missing"):
-        notes.append(f"REQUIREMENTS_{clarity.upper()}: Gemini flagged this posting's requirements as {clarity}")
+        notes.append(
+            f"REQUIREMENTS_{clarity.upper()}: Gemini flagged this posting's requirements as {clarity}"
+        )
     notes.extend(safe_list_parse(row.get("red_flags", "[]")))
     return notes
 
@@ -93,17 +96,26 @@ def main():
             emb_data = json.load(f)
         profile_embedding = emb_data["profile_embedding"]
         job_embeddings = {int(k): v for k, v in emb_data["job_embeddings"].items()}
-        print(f"Loaded real embeddings for {len(job_embeddings)} jobs (model: {emb_data.get('model', 'unknown')})")
+        print(
+            f"Loaded real embeddings for {len(job_embeddings)} jobs (model: {emb_data.get('model', 'unknown')})"
+        )
     else:
-        print("No embeddings.json found - run scripts/step_embeddings_generate.py first for semantic scoring.")
+        print(
+            "No embeddings.json found - run scripts/step_embeddings_generate.py first for semantic scoring."
+        )
         print("Continuing WITHOUT semantic similarity (same behavior as step5_fit_score.py).\n")
 
     merged = structured.merge(
         original[["job_id", "min_exp_years", "max_exp_years"]],
-        on="job_id", suffixes=("_gemini", "_original")
+        on="job_id",
+        suffixes=("_gemini", "_original"),
     )
-    merged["min_exp_years"] = merged["min_exp_years_gemini"].fillna(merged["min_exp_years_original"])
-    merged["max_exp_years"] = merged["max_exp_years_gemini"].fillna(merged["max_exp_years_original"])
+    merged["min_exp_years"] = merged["min_exp_years_gemini"].fillna(
+        merged["min_exp_years_original"]
+    )
+    merged["max_exp_years"] = merged["max_exp_years_gemini"].fillna(
+        merged["max_exp_years_original"]
+    )
 
     # Compute raw cosine similarity for every job first, THEN normalize relative to
     # this candidate set (min -> 0, max -> 100). Raw cosine similarity values tend to
@@ -116,7 +128,9 @@ def main():
         for _, job in merged.iterrows():
             job_id = int(job["job_id"])
             if job_id in job_embeddings:
-                raw_semantic_scores[job_id] = cosine_similarity(profile_embedding, job_embeddings[job_id])
+                raw_semantic_scores[job_id] = cosine_similarity(
+                    profile_embedding, job_embeddings[job_id]
+                )
 
     normalized_semantic_scores = {}
     if raw_semantic_scores:
@@ -139,25 +153,32 @@ def main():
         if semantic_score is not None:
             # Blend: semantic similarity replaces half the core-skill weight,
             # since it captures meaning-based matches keyword search would miss
-            fit_score = round((0.25 * core_score + 0.25 * semantic_score +
-                                0.25 * learn_score + 0.25 * exp_score) * 100, 1)
+            fit_score = round(
+                (0.25 * core_score + 0.25 * semantic_score + 0.25 * learn_score + 0.25 * exp_score)
+                * 100,
+                1,
+            )
         else:
             fit_score = round((0.5 * core_score + 0.25 * learn_score + 0.25 * exp_score) * 100, 1)
 
         anomalies = get_anomaly_notes(job)
 
-        rows.append({
-            "job_id": job_id,
-            "company": job["company"],
-            "title": job["title"],
-            "min_exp": job["min_exp_years"],
-            "max_exp": job["max_exp_years"],
-            "core_skill_%": round(core_score * 100, 1),
-            "semantic_similarity_%": round(semantic_score * 100, 1) if semantic_score is not None else "N/A",
-            "exp_fit_%": round(exp_score * 100, 1),
-            "fit_score": fit_score,
-            "anomalies": " | ".join(anomalies) if anomalies else "",
-        })
+        rows.append(
+            {
+                "job_id": job_id,
+                "company": job["company"],
+                "title": job["title"],
+                "min_exp": job["min_exp_years"],
+                "max_exp": job["max_exp_years"],
+                "core_skill_%": round(core_score * 100, 1),
+                "semantic_similarity_%": round(semantic_score * 100, 1)
+                if semantic_score is not None
+                else "N/A",
+                "exp_fit_%": round(exp_score * 100, 1),
+                "fit_score": fit_score,
+                "anomalies": " | ".join(anomalies) if anomalies else "",
+            }
+        )
 
     result = pd.DataFrame(rows).sort_values("fit_score", ascending=False).reset_index(drop=True)
     result.index += 1

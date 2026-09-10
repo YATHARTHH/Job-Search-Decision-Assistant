@@ -15,13 +15,15 @@ Run locally:
     python3 scripts/step5_fit_score.py
 """
 
-import os
-import json
 import ast
+import json
+import os
+
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+
 
 def safe_list_parse(val):
     """Gemini's list columns are stored as Python-literal strings like "['Python', 'AWS']".
@@ -34,6 +36,7 @@ def safe_list_parse(val):
     except (ValueError, SyntaxError):
         return []
 
+
 def skill_match_score(job_skills, profile_skills):
     """job_skills: Gemini-extracted list for this job. profile_skills: Harry's skill list.
     Fraction of PROFILE skills that appear (as substring) somewhere in job_skills."""
@@ -42,6 +45,7 @@ def skill_match_score(job_skills, profile_skills):
     job_text = " ".join(job_skills).lower()
     hits = sum(1 for s in profile_skills if s.lower() in job_text)
     return hits / len(profile_skills) if profile_skills else 0.0
+
 
 def experience_fit(min_exp, max_exp, my_years):
     if pd.isna(min_exp):
@@ -53,6 +57,7 @@ def experience_fit(min_exp, max_exp, my_years):
     gap = min(abs(my_years - lo), abs(my_years - hi))
     return max(0.0, 1 - gap / 3)
 
+
 def get_anomaly_notes(row):
     """Use Gemini's OWN reasoning instead of naive rules."""
     notes = []
@@ -61,10 +66,13 @@ def get_anomaly_notes(row):
         return notes
     clarity = row.get("requirements_clarity", "")
     if clarity in ("vague", "missing"):
-        notes.append(f"REQUIREMENTS_{clarity.upper()}: Gemini flagged this posting's requirements as {clarity}")
+        notes.append(
+            f"REQUIREMENTS_{clarity.upper()}: Gemini flagged this posting's requirements as {clarity}"
+        )
     red_flags = safe_list_parse(row.get("red_flags", "[]"))
     notes.extend(red_flags)
     return notes
+
 
 def main():
     structured = pd.read_csv(os.path.join(DATA_DIR, "jobs_structured.csv"))
@@ -79,10 +87,15 @@ def main():
     # Merge: fall back to original CSV's exp range when Gemini's extraction is missing (job 5)
     merged = structured.merge(
         original[["job_id", "min_exp_years", "max_exp_years"]],
-        on="job_id", suffixes=("_gemini", "_original")
+        on="job_id",
+        suffixes=("_gemini", "_original"),
     )
-    merged["min_exp_years"] = merged["min_exp_years_gemini"].fillna(merged["min_exp_years_original"])
-    merged["max_exp_years"] = merged["max_exp_years_gemini"].fillna(merged["max_exp_years_original"])
+    merged["min_exp_years"] = merged["min_exp_years_gemini"].fillna(
+        merged["min_exp_years_original"]
+    )
+    merged["max_exp_years"] = merged["max_exp_years_gemini"].fillna(
+        merged["max_exp_years_original"]
+    )
 
     rows = []
     for _, job in merged.iterrows():
@@ -95,19 +108,21 @@ def main():
         fit_score = round((0.5 * core_score + 0.25 * learn_score + 0.25 * exp_score) * 100, 1)
         anomalies = get_anomaly_notes(job)
 
-        rows.append({
-            "job_id": job["job_id"],
-            "company": job["company"],
-            "title": job["title"],
-            "min_exp": job["min_exp_years"],
-            "max_exp": job["max_exp_years"],
-            "core_skill_%": round(core_score * 100, 1),
-            "learning_skill_%": round(learn_score * 100, 1),
-            "exp_fit_%": round(exp_score * 100, 1),
-            "fit_score": fit_score,
-            "anomaly_count": len(anomalies),
-            "anomalies": " | ".join(anomalies) if anomalies else "",
-        })
+        rows.append(
+            {
+                "job_id": job["job_id"],
+                "company": job["company"],
+                "title": job["title"],
+                "min_exp": job["min_exp_years"],
+                "max_exp": job["max_exp_years"],
+                "core_skill_%": round(core_score * 100, 1),
+                "learning_skill_%": round(learn_score * 100, 1),
+                "exp_fit_%": round(exp_score * 100, 1),
+                "fit_score": fit_score,
+                "anomaly_count": len(anomalies),
+                "anomalies": " | ".join(anomalies) if anomalies else "",
+            }
+        )
 
     result = pd.DataFrame(rows).sort_values("fit_score", ascending=False).reset_index(drop=True)
     result.index += 1
@@ -120,6 +135,7 @@ def main():
     out_path = os.path.join(DATA_DIR, "..", "outputs", "step5_ranked_output.csv")
     result.to_csv(out_path, index=False)
     print(f"\nSaved to {out_path}")
+
 
 if __name__ == "__main__":
     main()

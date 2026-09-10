@@ -30,14 +30,15 @@ This includes rows that failed to parse (error == "could_not_parse"), so those a
 NOT automatically retried on re-run. Left as-is intentionally for now.
 """
 
-import os
 import json
+import os
 import time
+
+import httpx
 import pandas as pd
+from dotenv import load_dotenv
 from google import genai
 from google.genai import errors as genai_errors
-from dotenv import load_dotenv
-import httpx
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
@@ -72,6 +73,7 @@ Job Description:
 {jd_text}
 """
 
+
 def extract_one(jd_text, retries=4):
     prompt = EXTRACTION_PROMPT.format(jd_text=jd_text)
     for attempt in range(retries):
@@ -85,7 +87,7 @@ def extract_one(jd_text, retries=4):
                 return {"error": "could_not_parse", "raw_response": raw}
         except genai_errors.ServerError:
             wait = 30 * (attempt + 1)
-            print(f"  503 server error, retrying in {wait}s... (attempt {attempt+1}/{retries})")
+            print(f"  503 server error, retrying in {wait}s... (attempt {attempt + 1}/{retries})")
             time.sleep(wait)
         except genai_errors.ClientError as e:
             if "429" in str(e):
@@ -96,13 +98,29 @@ def extract_one(jd_text, retries=4):
                 raise
         except (httpx.ConnectError, httpx.TimeoutException, OSError) as e:
             wait = 30 * (attempt + 1)
-            print(f"  Network error ({e}), retrying in {wait}s... (attempt {attempt+1}/{retries})")
+            print(
+                f"  Network error ({e}), retrying in {wait}s... (attempt {attempt + 1}/{retries})"
+            )
             time.sleep(wait)
     return {"error": "failed_after_retries"}
 
-COLUMNS = ["job_id", "company", "title", "min_exp_years", "max_exp_years",
-           "seniority", "required_skills", "tech_stack", "role_focus",
-           "requirements_clarity", "red_flags", "error", "raw_response"]
+
+COLUMNS = [
+    "job_id",
+    "company",
+    "title",
+    "min_exp_years",
+    "max_exp_years",
+    "seniority",
+    "required_skills",
+    "tech_stack",
+    "role_focus",
+    "requirements_clarity",
+    "red_flags",
+    "error",
+    "raw_response",
+]
+
 
 def main():
     out_path = os.path.join(DATA_DIR, "jobs_structured.csv")
@@ -117,7 +135,9 @@ def main():
         existing = existing.dropna(subset=["job_id"])
         failed_mask = existing["error"] == "could_not_parse"
         retry_ids = set(existing.loc[failed_mask, "job_id"].astype(int).tolist())
-        existing = existing.loc[~failed_mask]  # drop failed rows - they'll be re-appended if retried
+        existing = existing.loc[
+            ~failed_mask
+        ]  # drop failed rows - they'll be re-appended if retried
         done_ids = set(existing["job_id"].astype(int).tolist())
         existing.to_csv(out_path, index=False)  # rewrite clean file without nan/failed rows
         if retry_ids:
@@ -137,12 +157,13 @@ def main():
         row_df = pd.DataFrame([extracted]).reindex(columns=COLUMNS)
         write_header = not os.path.exists(out_path)
         row_df.to_csv(out_path, mode="a", header=write_header, index=False)
-        print(f"  Saved.")
+        print("  Saved.")
 
         time.sleep(15)  # gemini-2.5-flash free tier: 5 req/min → 15s between calls
 
     total = len(pd.read_csv(out_path))
     print(f"\nDone. {total} structured rows in {out_path}")
+
 
 if __name__ == "__main__":
     main()

@@ -20,17 +20,35 @@ Both runs print a total time at the end. Put both numbers side by side in your P
 
 import os
 import time
+
 import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
 
 CORE_SKILLS = [
-    "python", "fastapi", "docker", "aws", "azure", "gcp", "rag",
-    "llm", "langchain", "pytorch", "tensorflow", "pyspark", "kubernetes",
-    "vector database", "prompt engineering", "microservices", "ci/cd",
-    "mongodb", "postgresql", "airflow",
+    "python",
+    "fastapi",
+    "docker",
+    "aws",
+    "azure",
+    "gcp",
+    "rag",
+    "llm",
+    "langchain",
+    "pytorch",
+    "tensorflow",
+    "pyspark",
+    "kubernetes",
+    "vector database",
+    "prompt engineering",
+    "microservices",
+    "ci/cd",
+    "mongodb",
+    "postgresql",
+    "airflow",
 ]
+
 
 def clean_and_score(df):
     """Same cleaning + feature extraction logic Step 1/5 use, run at scale."""
@@ -47,6 +65,7 @@ def clean_and_score(df):
     company_avg = df.groupby("company")["skill_match_count"].mean().sort_values(ascending=False)
     return df, company_avg
 
+
 def main():
     in_path = os.path.join(DATA_DIR, "job_postings_synthetic_large.csv")
     print(f"Loading {in_path} ...")
@@ -59,6 +78,7 @@ def main():
 
     print(f"\nTop 5 companies by avg skill match:\n{company_avg.head()}")
     print(f"\n=== Cleaning + feature extraction on {len(df):,} rows took {elapsed:.2f} seconds ===")
+
 
 if __name__ == "__main__":
     main()

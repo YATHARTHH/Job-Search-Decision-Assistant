@@ -18,8 +18,9 @@ Run in Colab (cudf.pandas):
 """
 
 import os
-import time
 import re
+import time
+
 import pandas as pd
 
 # Works both as a local .py file (python scripts/step3_benchmark_v2.py from project root)
@@ -31,13 +32,30 @@ except NameError:
     in_path = "job_postings_synthetic_large.csv"  # Colab: file uploaded next to the notebook
 
 CORE_SKILLS = [
-    "python", "fastapi", "docker", "aws", "azure", "gcp", "rag",
-    "llm", "langchain", "pytorch", "tensorflow", "pyspark", "kubernetes",
-    "vector database", "prompt engineering", "microservices", "ci/cd",
-    "mongodb", "postgresql", "airflow",
+    "python",
+    "fastapi",
+    "docker",
+    "aws",
+    "azure",
+    "gcp",
+    "rag",
+    "llm",
+    "langchain",
+    "pytorch",
+    "tensorflow",
+    "pyspark",
+    "kubernetes",
+    "vector database",
+    "prompt engineering",
+    "microservices",
+    "ci/cd",
+    "mongodb",
+    "postgresql",
+    "airflow",
 ]
 
 COMBINED_PATTERN = "|".join(re.escape(s) for s in CORE_SKILLS)
+
 
 def clean_and_score(df):
     """Redesigned: one regex pass instead of 20 separate ones."""
@@ -47,6 +65,7 @@ def clean_and_score(df):
 
     company_avg = df.groupby("company")["skill_match_count"].mean().sort_values(ascending=False)
     return df, company_avg
+
 
 def main():
     print(f"Loading {in_path} ...")
@@ -64,7 +83,10 @@ def main():
     elapsed = time.time() - start
 
     print(f"\nTop 5 companies by avg skill match:\n{company_avg.head()}")
-    print(f"\n=== (warmed up) Cleaning + feature extraction on {len(df):,} rows took {elapsed:.2f} seconds ===")
+    print(
+        f"\n=== (warmed up) Cleaning + feature extraction on {len(df):,} rows took {elapsed:.2f} seconds ==="
+    )
+
 
 if __name__ == "__main__":
     main()

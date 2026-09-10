@@ -22,13 +22,14 @@ calls on this API key/project - if you've used up today's quota on Step 2 or /as
 this may also be rate-limited. Wait a day or use a fresh key if needed.
 """
 
-import os
-import json
-import time
 import ast
+import json
+import os
+import time
+
 import pandas as pd
-from google import genai
 from dotenv import load_dotenv
+from google import genai
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "..", "data")
