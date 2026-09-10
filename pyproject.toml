@@ -17,6 +17,8 @@ select = [
 ]
 ignore = [
     "E501", # line length handled by formatter
+    "B904", # raise ... from err preference
+    "B905", # zip strict requirement
 ]
 
 [tool.pytest.ini_options]
